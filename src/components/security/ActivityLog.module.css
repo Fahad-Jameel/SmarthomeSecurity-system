@@ -1,0 +1,142 @@
+/* ActivityLog.module.css */
+.logContainer {
+    margin-top: 1rem;
+  }
+  
+  .emptyState {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  
+  .emptyIcon {
+    width: 3rem;
+    height: 3rem;
+    color: #9ca3af; /* gray-400 */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.75rem;
+  }
+  
+  .emptyTitle {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    color: #4b5563; /* gray-600 */
+  }
+  
+  .emptyText {
+    color: #6b7280; /* gray-500 */
+    margin-top: 0.25rem;
+  }
+  
+  .tableContainer {
+    overflow: auto;
+    max-height: 24rem; /* max-h-96 */
+  }
+  
+  .table {
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  .tableHeader {
+    background-color: #f9fafb; /* gray-50 */
+  }
+  
+  .tableHeaderCell {
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #6b7280; /* gray-500 */
+    letter-spacing: 0.05em;
+  }
+  
+  .tableBody {
+    background-color: white;
+  }
+  
+  .tableRow {
+    border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+  }
+  
+  .tableRow:hover {
+    background-color: #f9fafb; /* gray-50 */
+  }
+  
+  .eventCell {
+    padding: 1rem 1.5rem;
+    white-space: nowrap;
+  }
+  
+  .eventContent {
+    display: flex;
+    align-items: center;
+  }
+  
+  .eventIconContainer {
+    padding: 0.5rem;
+    border-radius: 9999px;
+    margin-right: 0.5rem;
+  }
+  
+  .armIcon {
+    background-color: #fee2e2; /* red-100 */
+    color: #ef4444; /* red-600 */
+  }
+  
+  .disarmIcon {
+    background-color: #dcfce7; /* green-100 */
+    color: #10b981; /* green-600 */
+  }
+  
+  .triggerIcon {
+    background-color: #fef3c7; /* yellow-100 */
+    color: #f59e0b; /* yellow-600 */
+  }
+  
+  .alertIcon {
+    background-color: #fee2e2; /* red-100 */
+    color: #ef4444; /* red-600 */
+  }
+  
+  .systemIcon {
+    background-color: #dbeafe; /* blue-100 */
+    color: #2563eb; /* blue-600 */
+  }
+  
+  .eventIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .eventType {
+    text-transform: capitalize;
+  }
+  
+  .descriptionCell {
+    padding: 1rem 1.5rem;
+  }
+  
+  .descriptionText {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #1f2937; /* gray-900 */
+  }
+  
+  .sourceText {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #6b7280; /* gray-500 */
+  }
+  
+  .timeCell {
+    padding: 1rem 1.5rem;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #6b7280; /* gray-500 */
+  }

@@ -1,0 +1,127 @@
+/* AddSensorModal.module.css */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  
+  .modalContainer {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 28rem;
+    padding: 1.5rem;
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .modalTitle {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+  
+  .closeButton {
+    color: #6b7280; /* gray-500 */
+  }
+  
+  .closeButton:hover {
+    color: #374151; /* gray-700 */
+  }
+  
+  .closeIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    display: block;
+    color: #374151; /* gray-700 */
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
+  }
+  
+  .input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* focus ring blue-200 */
+  }
+  
+  .inputError {
+    border-color: #ef4444; /* red-500 */
+  }
+  
+  .inputError:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2); /* focus ring red-200 */
+  }
+  
+  .errorMessage {
+    color: #ef4444; /* red-500 */
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin-top: 0.25rem;
+  }
+  
+  .select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
+  }
+  
+  .select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* focus ring blue-200 */
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .cancelButton {
+    margin-right: 0.5rem;
+    background-color: #e5e7eb; /* gray-200 */
+    color: #1f2937; /* gray-800 */
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+  
+  .cancelButton:hover {
+    background-color: #d1d5db; /* gray-300 */
+  }
+  
+  .submitButton {
+    background-color: #2563eb; /* blue-600 */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+  
+  .submitButton:hover {
+    background-color: #1d4ed8; /* blue-700 */
+  }
+  
+  .submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }

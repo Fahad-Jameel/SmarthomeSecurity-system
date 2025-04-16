@@ -1,0 +1,234 @@
+/* SensorCard.module.css */
+.card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+  
+  .cardContent {
+    padding: 1rem;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .sensorInfo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .iconContainer {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-right: 0.75rem;
+  }
+  
+  .iconBlue {
+    background-color: #dbeafe; /* blue-100 */
+    color: #2563eb; /* blue-600 */
+  }
+  
+  .iconGreen {
+    background-color: #dcfce7; /* green-100 */
+    color: #16a34a; /* green-600 */
+  }
+  
+  .iconPurple {
+    background-color: #f3e8ff; /* purple-100 */
+    color: #9333ea; /* purple-600 */
+  }
+  
+  .iconRed {
+    background-color: #fee2e2; /* red-100 */
+    color: #dc2626; /* red-600 */
+  }
+  
+  .iconGray {
+    background-color: #f3f4f6; /* gray-100 */
+    color: #4b5563; /* gray-600 */
+  }
+  
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .sensorName {
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  .sensorLocation {
+    color: #4b5563; /* gray-600 */
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .statusContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .statusIndicator {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+    margin-right: 0.25rem;
+  }
+  
+  .statusActive {
+    background-color: #10b981; /* green-500 */
+  }
+  
+  .statusInactive {
+    background-color: #6b7280; /* gray-500 */
+  }
+  
+  .statusTriggered {
+    background-color: #ef4444; /* red-500 */
+  }
+  
+  .statusOffline {
+    background-color: #f59e0b; /* yellow-500 */
+  }
+  
+  .statusText {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  
+  .batteryContainer {
+    margin-top: 1rem;
+  }
+  
+  .batteryHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .batteryLabel {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #4b5563; /* gray-600 */
+  }
+  
+  .batteryValue {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  
+  .batteryBar {
+    width: 100%;
+    height: 0.5rem;
+    background-color: #e5e7eb; /* gray-200 */
+    border-radius: 9999px;
+  }
+  
+  .batteryProgress {
+    height: 0.5rem;
+    border-radius: 9999px;
+  }
+  
+  .batteryGood {
+    background-color: #10b981; /* green-500 */
+  }
+  
+  .batteryMedium {
+    background-color: #f59e0b; /* yellow-500 */
+  }
+  
+  .batteryLow {
+    background-color: #ef4444; /* red-500 */
+  }
+  
+  .metaContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  .metaItem {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .metaLabel {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #6b7280; /* gray-500 */
+  }
+  
+  .metaValue {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  
+  .actionBar {
+    display: flex;
+    border-top: 1px solid #e5e7eb; /* gray-200 */
+    padding: 1rem;
+  }
+  
+  .actionButton {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding: 0.5rem 0;
+  }
+  
+  .deactivateButton {
+    color: #ef4444; /* red-600 */
+  }
+  
+  .deactivateButton:hover {
+    background-color: #fef2f2; /* red-50 */
+  }
+  
+  .activateButton {
+    color: #10b981; /* green-600 */
+  }
+  
+  .activateButton:hover {
+    background-color: #ecfdf5; /* green-50 */
+  }
+  
+  .disabledButton {
+    color: #9ca3af; /* gray-400 */
+    background-color: #f3f4f6; /* gray-100 */
+    cursor: not-allowed;
+  }
+  
+  .separator {
+    width: 1px;
+    background-color: #e5e7eb; /* gray-200 */
+  }
+  
+  .deleteButton {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #4b5563; /* gray-600 */
+    padding: 0.5rem 0;
+  }
+  
+  .deleteButton:hover {
+    background-color: #f3f4f6; /* gray-50 */
+  }

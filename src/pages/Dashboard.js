@@ -5,6 +5,7 @@ import SystemStatus from '../components/dashboard/SystemStatus.js';
 import SensorOverview from '../components/dashboard/SensorOverview';
 import RecentActivity from '../components/dashboard/RecentActivity';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -50,16 +51,16 @@ const Dashboard = () => {
   }
   
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Welcome, {user?.name}</h1>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Welcome, {user?.name}</h1>
         <button 
           onClick={handleRefresh} 
-          className="flex items-center bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded-lg"
+          className={styles.refreshButton}
           disabled={refreshing}
         >
           <svg 
-            className={`w-5 h-5 mr-2 ${refreshing ? 'animate-spin' : ''}`} 
+            className={`${styles.refreshIcon} ${refreshing ? styles.spinning : ''}`} 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24" 
@@ -76,35 +77,35 @@ const Dashboard = () => {
         </button>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2">
+      <div className={styles.grid}>
+        <div className={styles.col2Span}>
           <SystemStatus 
             status={systemStatus} 
             onArmDisarm={handleArmDisarm} 
           />
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Quick Stats</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <p className="text-gray-600 text-sm">Total Sensors</p>
-              <p className="text-2xl font-bold">{sensors.length}</p>
+        <div className={styles.statsCard}>
+          <h2 className={styles.statsTitle}>Quick Stats</h2>
+          <div className={styles.statsGrid}>
+            <div className={`${styles.statsItem} ${styles.statsItemBlue}`}>
+              <p className={styles.statsLabel}>Total Sensors</p>
+              <p className={styles.statsValue}>{sensors.length}</p>
             </div>
-            <div className="bg-green-50 p-4 rounded-lg">
-              <p className="text-gray-600 text-sm">Active</p>
-              <p className="text-2xl font-bold">
+            <div className={`${styles.statsItem} ${styles.statsItemGreen}`}>
+              <p className={styles.statsLabel}>Active</p>
+              <p className={styles.statsValue}>
                 {sensors.filter(sensor => sensor.status === 'active').length}
               </p>
             </div>
-            <div className="bg-yellow-50 p-4 rounded-lg">
-              <p className="text-gray-600 text-sm">Offline</p>
-              <p className="text-2xl font-bold">
+            <div className={`${styles.statsItem} ${styles.statsItemYellow}`}>
+              <p className={styles.statsLabel}>Offline</p>
+              <p className={styles.statsValue}>
                 {sensors.filter(sensor => sensor.status === 'offline').length}
               </p>
             </div>
-            <div className="bg-red-50 p-4 rounded-lg">
-              <p className="text-gray-600 text-sm">Alerts Today</p>
-              <p className="text-2xl font-bold">
+            <div className={`${styles.statsItem} ${styles.statsItemRed}`}>
+              <p className={styles.statsLabel}>Alerts Today</p>
+              <p className={styles.statsValue}>
                 {logs.filter(log => 
                   log.eventType === 'alert' && 
                   new Date(log.timestamp).toDateString() === new Date().toDateString()
@@ -115,8 +116,8 @@ const Dashboard = () => {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+      <div className={styles.grid}>
+        <div className={styles.col2Span}>
           <SensorOverview sensors={sensors} />
         </div>
         <div>

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
+import styles from './Register.module.css';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -69,159 +70,148 @@ const Register = () => {
     if (password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
     
     // Phone validation (optional)
-   // Phone validation (optional)
-   if (phone && !/^\+?[0-9]{10,15}$/.test(phone)) {
-    errors.phone = 'Please enter a valid phone number';
-  }
-  
-  setFormErrors(errors);
-  return Object.keys(errors).length === 0;
-};
-
-const onSubmit = async e => {
-  e.preventDefault();
-  
-  if (validateForm()) {
-    setIsSubmitting(true);
-    try {
-      await register({
-        name,
-        email,
-        password,
-        phone
-      });
-      toast.success('Registration successful!');
-    } catch (err) {
-      console.error('Registration error:', err);
-    } finally {
-      setIsSubmitting(false);
+    if (phone && !/^\+?[0-9]{10,15}$/.test(phone)) {
+      errors.phone = 'Please enter a valid phone number';
     }
-  }
-};
-
-return (
-  <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-    <h2 className="text-2xl font-bold mb-6 text-center">Create an Account</h2>
-    <form onSubmit={onSubmit}>
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2" htmlFor="name">
-          Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={name}
-          onChange={onChange}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            formErrors.name ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-          }`}
-          placeholder="Enter your name"
-        />
-        {formErrors.name && (
-          <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>
-        )}
-      </div>
-      
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2" htmlFor="email">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={email}
-          onChange={onChange}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            formErrors.email ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-          }`}
-          placeholder="Enter your email"
-        />
-        {formErrors.email && (
-          <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
-        )}
-      </div>
-      
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2" htmlFor="password">
-          Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={onChange}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            formErrors.password ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-          }`}
-          placeholder="Enter your password"
-        />
-        {formErrors.password && (
-          <p className="text-red-500 text-sm mt-1">{formErrors.password}</p>
-        )}
-      </div>
-      
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2" htmlFor="confirmPassword">
-          Confirm Password
-        </label>
-        <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          value={confirmPassword}
-          onChange={onChange}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            formErrors.confirmPassword ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-          }`}
-          placeholder="Confirm your password"
-        />
-        {formErrors.confirmPassword && (
-          <p className="text-red-500 text-sm mt-1">{formErrors.confirmPassword}</p>
-        )}
-      </div>
-      
-      <div className="mb-6">
-        <label className="block text-gray-700 mb-2" htmlFor="phone">
-          Phone (optional)
-        </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={phone}
-          onChange={onChange}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-            formErrors.phone ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-          }`}
-          placeholder="Enter your phone number"
-        />
-        {formErrors.phone && (
-          <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>
-        )}
-      </div>
-      
-      <button
-        type="submit"
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
-        disabled={isSubmitting}
-      >
-        {isSubmitting ? 'Registering...' : 'Register'}
-      </button>
-    </form>
     
-    <div className="mt-4 text-center">
-      <p className="text-gray-600">
-        Already have an account?{' '}
-        <Link to="/login" className="text-blue-600 hover:underline">
-          Login
-        </Link>
-      </p>
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    
+    if (validateForm()) {
+      setIsSubmitting(true);
+      try {
+        await register({
+          name,
+          email,
+          password,
+          phone
+        });
+        toast.success('Registration successful!');
+      } catch (err) {
+        console.error('Registration error:', err);
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Create an Account</h2>
+      <form onSubmit={onSubmit}>
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="name">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            onChange={onChange}
+            className={formErrors.name ? `${styles.input} ${styles.inputError}` : styles.input}
+            placeholder="Enter your name"
+          />
+          {formErrors.name && (
+            <p className={styles.errorMessage}>{formErrors.name}</p>
+          )}
+        </div>
+        
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="email">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            className={formErrors.email ? `${styles.input} ${styles.inputError}` : styles.input}
+            placeholder="Enter your email"
+          />
+          {formErrors.email && (
+            <p className={styles.errorMessage}>{formErrors.email}</p>
+          )}
+        </div>
+        
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="password">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            className={formErrors.password ? `${styles.input} ${styles.inputError}` : styles.input}
+            placeholder="Enter your password"
+          />
+          {formErrors.password && (
+            <p className={styles.errorMessage}>{formErrors.password}</p>
+          )}
+        </div>
+        
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="confirmPassword">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={onChange}
+            className={formErrors.confirmPassword ? `${styles.input} ${styles.inputError}` : styles.input}
+            placeholder="Confirm your password"
+          />
+          {formErrors.confirmPassword && (
+            <p className={styles.errorMessage}>{formErrors.confirmPassword}</p>
+          )}
+        </div>
+        
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="phone">
+            Phone (optional)
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={phone}
+            onChange={onChange}
+            className={formErrors.phone ? `${styles.input} ${styles.inputError}` : styles.input}
+            placeholder="Enter your phone number"
+          />
+          {formErrors.phone && (
+            <p className={styles.errorMessage}>{formErrors.phone}</p>
+          )}
+        </div>
+        
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Registering...' : 'Register'}
+        </button>
+      </form>
+      
+      <div className={styles.linkContainer}>
+        <p className={styles.text}>
+          Already have an account?{' '}
+          <Link to="/login" className={styles.link}>
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Register;

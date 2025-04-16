@@ -1,0 +1,148 @@
+/* RecentActivity.module.css */
+.container {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+  
+  .emptyState {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 0;
+  }
+  
+  .emptyIcon {
+    width: 3rem;
+    height: 3rem;
+    color: #9ca3af; /* gray-400 */
+    margin-bottom: 0.75rem;
+  }
+  
+  .emptyTitle {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    color: #4b5563; /* gray-600 */
+  }
+  
+  .emptyText {
+    color: #6b7280; /* gray-500 */
+    margin-top: 0.25rem;
+  }
+  
+  .activityList {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 26rem;
+  }
+  
+  .activityItem {
+    padding: 1rem 0;
+    display: flex;
+    border-bottom: 1px solid #e5e7eb; /* gray-200 */
+  }
+  
+  .activityItem:last-child {
+    border-bottom: none;
+  }
+  
+  .iconContainer {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+  
+  .armIcon {
+    background-color: #fee2e2; /* red-100 */
+    color: #ef4444; /* red-600 */
+  }
+  
+  .disarmIcon {
+    background-color: #dcfce7; /* green-100 */
+    color: #10b981; /* green-600 */
+  }
+  
+  .triggerIcon {
+    background-color: #fef3c7; /* yellow-100 */
+    color: #f59e0b; /* yellow-600 */
+  }
+  
+  .alertIcon {
+    background-color: #fee2e2; /* red-100 */
+    color: #ef4444; /* red-600 */
+  }
+  
+  .systemIcon {
+    background-color: #dbeafe; /* blue-100 */
+    color: #2563eb; /* blue-600 */
+  }
+  
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .content {
+    flex-grow: 1;
+    min-width: 0;
+  }
+  
+  .description {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .timestamp {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #6b7280; /* gray-500 */
+  }
+  
+  .viewAllLink {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .link {
+    color: #2563eb; /* blue-600 */
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
+  
+  .linkIcon {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.25rem;
+  }

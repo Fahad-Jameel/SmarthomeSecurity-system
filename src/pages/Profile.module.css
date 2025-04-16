@@ -1,0 +1,103 @@
+/* Profile.module.css */
+.container {
+    max-width: 64rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .heading {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+  
+  .tabContainer {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+  }
+  
+  .tab {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+  .tabActive {
+    color: #2563eb; /* blue-600 */
+    border-bottom: 2px solid #2563eb; /* blue-600 */
+  }
+  
+  .tabInactive {
+    color: #4b5563; /* gray-600 */
+  }
+  
+  .tabInactive:hover {
+    color: #1f2937; /* gray-800 */
+  }
+  
+  .formContainer {
+    padding: 1.5rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    display: block;
+    color: #374151; /* gray-700 */
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
+  }
+  
+  .input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* focus ring blue-200 */
+  }
+  
+  .inputError {
+    border-color: #ef4444; /* red-500 */
+  }
+  
+  .inputError:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2); /* focus ring red-200 */
+  }
+  
+  .errorMessage {
+    color: #ef4444; /* red-500 */
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    margin-top: 0.25rem;
+  }
+  
+  .submitButton {
+    background-color: #2563eb; /* blue-600 */
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .submitButton:hover {
+    background-color: #1d4ed8; /* blue-700 */
+  }
+  
+  .submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }

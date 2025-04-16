@@ -3,6 +3,7 @@ import { SecurityContext } from '../context/SecurityContext';
 import SystemStatus from '../components/dashboard/SystemStatus';
 import ActivityLog from '../components/security/ActivityLog';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import styles from './Security.module.css';
 
 const Security = () => {
   const { 
@@ -44,54 +45,52 @@ const Security = () => {
   }
   
   return (
-    <div className="max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Security Control</h1>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Security Control</h1>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2">
+      <div className={styles.grid}>
+        <div className={styles.col2Span}>
           <SystemStatus 
             status={systemStatus} 
             onArmDisarm={handleArmDisarm} 
           />
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col h-full">
-          <h2 className="text-xl font-semibold mb-4">Emergency Contacts</h2>
-          <div className="space-y-4 flex-grow">
-            <div className="flex items-center p-3 bg-blue-50 rounded-lg">
-              <svg className="w-10 h-10 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <div className={styles.emergencyCard}>
+          <h2 className={styles.emergencyTitle}>Emergency Contacts</h2>
+          <div className={styles.contactsList}>
+            <div className={`${styles.contactItem} ${styles.securityContact}`}>
+              <svg className={styles.securityIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <div>
-                <h3 className="font-medium">Security Company</h3>
-                <p className="text-sm text-blue-600">+1 (555) 123-4567</p>
+                <h3 className={styles.contactName}>Security Company</h3>
+                <p className={styles.contactNumber}>+1 (555) 123-4567</p>
               </div>
             </div>
-            <div className="flex items-center p-3 bg-red-50 rounded-lg">
-              <svg className="w-10 h-10 text-red-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <div className={`${styles.contactItem} ${styles.emergencyContact}`}>
+              <svg className={styles.emergencyIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div>
-                <h3 className="font-medium">Emergency (911)</h3>
-                <p className="text-sm text-red-600">911</p>
+                <h3 className={styles.contactName}>Emergency (911)</h3>
+                <p className={`${styles.contactNumber} ${styles.emergencyNumber}`}>911</p>
               </div>
             </div>
           </div>
-          <div className="mt-4">
-            <button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium">
-              Call Emergency Services
-            </button>
-          </div>
+          <button className={styles.emergencyButton}>
+            Call Emergency Services
+          </button>
         </div>
       </div>
       
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Activity Log</h2>
-          <div>
-            <label htmlFor="logsFilter" className="mr-2 text-sm">Filter:</label>
+      <div className={styles.logsCard}>
+        <div className={styles.logsHeader}>
+          <h2 className={styles.logsTitle}>Activity Log</h2>
+          <div className={styles.filterContainer}>
+            <label htmlFor="logsFilter" className={styles.filterLabel}>Filter:</label>
             <select
               id="logsFilter"
-              className="border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className={styles.filterSelect}
               value={logsFilter}
               onChange={(e) => setLogsFilter(e.target.value)}
             >

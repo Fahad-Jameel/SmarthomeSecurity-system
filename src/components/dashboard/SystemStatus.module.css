@@ -1,0 +1,198 @@
+/* SystemStatus.module.css */
+.container {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  
+  .titleContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+  
+  .status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .statusLabel {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #6b7280; /* gray-500 */
+    margin-bottom: 0.25rem;
+  }
+  
+  .statusBadge {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .statusDisarmed {
+    background-color: #f3f4f6; /* gray-100 */
+    color: #1f2937; /* gray-800 */
+  }
+  
+  .statusArmed {
+    background-color: #fee2e2; /* red-100 */
+    color: #dc2626; /* red-600 */
+  }
+  
+  .statusPartial {
+    background-color: #fef3c7; /* yellow-100 */
+    color: #d97706; /* yellow-600 */
+  }
+  
+  .statusAlarm {
+    background-color: #dc2626; /* red-600 */
+    color: white;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .currentStatusGrid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 640px) {
+    .currentStatusGrid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  
+  .statusCard {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .disarmedCard {
+    background-color: #f3f4f6; /* gray-100 */
+  }
+  
+  .homeCard {
+    background-color: #dbeafe; /* blue-100 */
+  }
+  
+  .awayCard {
+    background-color: #fee2e2; /* red-100 */
+  }
+  
+  .nightCard {
+    background-color: #e0e7ff; /* indigo-100 */
+  }
+  
+  .statusIcon {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .statusCardLabel {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .statusDescription {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #6b7280; /* gray-500 */
+  }
+  
+  .activeStatus {
+    border: 2px solid currentColor;
+  }
+  
+  .actionButtons {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  
+  @media (min-width: 640px) {
+    .actionButtons {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  
+  .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .disarmButton {
+    background-color: #f3f4f6; /* gray-100 */
+    color: #1f2937; /* gray-800 */
+  }
+  
+  .disarmButton:hover {
+    background-color: #e5e7eb; /* gray-200 */
+  }
+  
+  .armHomeButton {
+    background-color: #dbeafe; /* blue-100 */
+    color: #2563eb; /* blue-600 */
+  }
+  
+  .armHomeButton:hover {
+    background-color: #bfdbfe; /* blue-200 */
+  }
+  
+  .armAwayButton {
+    background-color: #fee2e2; /* red-100 */
+    color: #dc2626; /* red-600 */
+  }
+  
+  .armAwayButton:hover {
+    background-color: #fecaca; /* red-200 */
+  }
+  
+  .buttonIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+  }
+  
+  .disabledButton {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }

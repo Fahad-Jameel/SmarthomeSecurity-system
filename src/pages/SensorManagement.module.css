@@ -1,0 +1,157 @@
+/* SensorManagement.module.css */
+.container {
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+  }
+  
+  .addButton {
+    display: flex;
+    align-items: center;
+    background-color: #2563eb; /* blue-600 */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+  
+  .addButton:hover {
+    background-color: #1d4ed8; /* blue-700 */
+  }
+  
+  .addIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+  }
+  
+  .searchCard {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 1.5rem;
+  }
+  
+  .searchRow {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 768px) {
+    .searchRow {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+  
+  .searchInputContainer {
+    flex: 1;
+    position: relative;
+  }
+  
+  .searchIcon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #9ca3af; /* gray-400 */
+    pointer-events: none;
+  }
+  
+  .searchInput {
+    width: 100%;
+    padding-left: 2.5rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
+  }
+  
+  .searchInput:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* focus ring blue-200 */
+  }
+  
+  .filterContainer {
+    flex-shrink: 0;
+  }
+  
+  .filterLabel {
+    margin-right: 0.5rem;
+  }
+  
+  .filterSelect {
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .filterSelect:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* focus ring blue-200 */
+  }
+  
+  .emptyState {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    text-align: center;
+  }
+  
+  .emptyIcon {
+    width: 4rem;
+    height: 4rem;
+    color: #9ca3af; /* gray-400 */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .emptyTitle {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    color: #374151; /* gray-700 */
+    margin-bottom: 0.5rem;
+  }
+  
+  .emptyText {
+    color: #6b7280; /* gray-500 */
+    margin-bottom: 1rem;
+  }
+  
+  .sensorGrid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .sensorGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .sensorGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
+import styles from './Login.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -75,11 +76,11 @@ const Login = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-center">Login to Your Account</h2>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Login to Your Account</h2>
       <form onSubmit={onSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="email">
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="email">
             Email
           </label>
           <input
@@ -88,18 +89,16 @@ const Login = () => {
             name="email"
             value={email}
             onChange={onChange}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-              formErrors.email ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-            }`}
+            className={formErrors.email ? `${styles.input} ${styles.inputError}` : styles.input}
             placeholder="Enter your email"
           />
           {formErrors.email && (
-            <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
+            <p className={styles.errorMessage}>{formErrors.email}</p>
           )}
         </div>
         
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="password">
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="password">
             Password
           </label>
           <input
@@ -108,47 +107,45 @@ const Login = () => {
             name="password"
             value={password}
             onChange={onChange}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-              formErrors.password ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-            }`}
+            className={formErrors.password ? `${styles.input} ${styles.inputError}` : styles.input}
             placeholder="Enter your password"
           />
           {formErrors.password && (
-            <p className="text-red-500 text-sm mt-1">{formErrors.password}</p>
+            <p className={styles.errorMessage}>{formErrors.password}</p>
           )}
         </div>
         
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
+        <div className={styles.optionsContainer}>
+          <div className={styles.checkboxContainer}>
             <input
               type="checkbox"
               id="rememberMe"
               checked={rememberMe}
               onChange={() => setRememberMe(!rememberMe)}
-              className="mr-2"
+              className={styles.checkbox}
             />
-            <label htmlFor="rememberMe" className="text-gray-700 text-sm">
+            <label htmlFor="rememberMe" className={styles.checkboxLabel}>
               Remember me
             </label>
           </div>
-          <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">
+          <Link to="/forgot-password" className={styles.forgotPassword}>
             Forgot Password?
           </Link>
         </div>
         
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
+          className={styles.submitButton}
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Logging in...' : 'Login'}
         </button>
       </form>
       
-      <div className="mt-4 text-center">
-        <p className="text-gray-600">
+      <div className={styles.linkContainer}>
+        <p className={styles.text}>
           Don't have an account?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline">
+          <Link to="/register" className={styles.link}>
             Register
           </Link>
         </p>

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { SecurityContext } from '../../context/SecurityContext';
 import { toast } from 'react-toastify';
+import styles from './AddSensorModal.module.css';
 
 const AddSensorModal = ({ isOpen, onClose }) => {
   const { addSensor } = useContext(SecurityContext);
@@ -61,23 +62,23 @@ const AddSensorModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold">Add New Sensor</h3>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContainer}>
+        <div className={styles.modalHeader}>
+          <h3 className={styles.modalTitle}>Add New Sensor</h3>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className={styles.closeButton}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className={styles.closeIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
         
         <form onSubmit={onSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="name">
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="name">
               Sensor Name
             </label>
             <input
@@ -86,18 +87,16 @@ const AddSensorModal = ({ isOpen, onClose }) => {
               name="name"
               value={name}
               onChange={onChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                formErrors.name ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-              }`}
+              className={formErrors.name ? `${styles.input} ${styles.inputError}` : styles.input}
               placeholder="e.g., Living Room Motion Sensor"
             />
             {formErrors.name && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>
+              <p className={styles.errorMessage}>{formErrors.name}</p>
             )}
           </div>
           
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="type">
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="type">
               Sensor Type
             </label>
             <select
@@ -105,7 +104,7 @@ const AddSensorModal = ({ isOpen, onClose }) => {
               name="type"
               value={type}
               onChange={onChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className={styles.select}
             >
               <option value="motion">Motion Sensor</option>
               <option value="door">Door Sensor</option>
@@ -116,8 +115,8 @@ const AddSensorModal = ({ isOpen, onClose }) => {
             </select>
           </div>
           
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="location">
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="location">
               Location
             </label>
             <input
@@ -126,18 +125,16 @@ const AddSensorModal = ({ isOpen, onClose }) => {
               name="location"
               value={location}
               onChange={onChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                formErrors.location ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-              }`}
+              className={formErrors.location ? `${styles.input} ${styles.inputError}` : styles.input}
               placeholder="e.g., Living Room, Front Door"
             />
             {formErrors.location && (
-              <p className="text-red-500 text-sm mt-1">{formErrors.location}</p>
+              <p className={styles.errorMessage}>{formErrors.location}</p>
             )}
           </div>
           
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-2" htmlFor="zone">
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="zone">
               Zone
             </label>
             <select
@@ -145,7 +142,7 @@ const AddSensorModal = ({ isOpen, onClose }) => {
               name="zone"
               value={zone}
               onChange={onChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
+              className={styles.select}
             >
               <option value="default">Default</option>
               <option value="perimeter">Perimeter</option>
@@ -157,17 +154,17 @@ const AddSensorModal = ({ isOpen, onClose }) => {
             </select>
           </div>
           
-          <div className="flex justify-end">
+          <div className={styles.buttonContainer}>
             <button
               type="button"
               onClick={onClose}
-              className="mr-2 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg"
+              className={styles.cancelButton}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
+              className={styles.submitButton}
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Adding...' : 'Add Sensor'}

@@ -23,17 +23,17 @@ import NotFound from './pages/NotFound';
 // Private Route Component
 import PrivateRoute from './components/routing/PrivateRoute';
 
-// CSS
-import './App.css';
+// CSS Modules
+import styles from './App.module.css';
 
 const App = () => {
   return (
     <AuthProvider>
       <SecurityProvider>
         <Router>
-          <div className="flex flex-col min-h-screen">
+          <div className={styles.container}>
             <Navbar />
-            <main className="container mx-auto px-4 py-6 flex-grow">
+            <main className={styles.main}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />

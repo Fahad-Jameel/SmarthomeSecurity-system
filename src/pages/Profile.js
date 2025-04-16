@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import styles from './Profile.module.css';
 
 const Profile = () => {
   const { user, updateProfile, loading } = useContext(AuthContext);
@@ -120,38 +121,30 @@ const Profile = () => {
   };
   
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">My Profile</h1>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>My Profile</h1>
       
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="flex border-b">
+      <div className={styles.card}>
+        <div className={styles.tabContainer}>
           <button
-            className={`flex-1 py-4 px-6 text-center font-medium ${
-              activeTab === 'profile'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-600 hover:text-gray-800'
-            }`}
+            className={`${styles.tab} ${activeTab === 'profile' ? styles.tabActive : styles.tabInactive}`}
             onClick={() => setActiveTab('profile')}
           >
             Profile Information
           </button>
           <button
-            className={`flex-1 py-4 px-6 text-center font-medium ${
-              activeTab === 'security'
-                ? 'text-blue-600 border-b-2 border-blue-600'
-                : 'text-gray-600 hover:text-gray-800'
-            }`}
+            className={`${styles.tab} ${activeTab === 'security' ? styles.tabActive : styles.tabInactive}`}
             onClick={() => setActiveTab('security')}
           >
             Security Settings
           </button>
         </div>
         
-        <div className="p-6">
+        <div className={styles.formContainer}>
           {activeTab === 'profile' && (
             <form onSubmit={handleProfileUpdate}>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2" htmlFor="name">
+              <div className={styles.formGroup}>
+                <label className={styles.label} htmlFor="name">
                   Full Name
                 </label>
                 <input
@@ -160,17 +153,15 @@ const Profile = () => {
                   name="name"
                   value={name}
                   onChange={onChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                    formErrors.name ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-                  }`}
+                  className={formErrors.name ? `${styles.input} ${styles.inputError}` : styles.input}
                 />
                 {formErrors.name && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>
+                  <p className={styles.errorMessage}>{formErrors.name}</p>
                 )}
               </div>
               
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2" htmlFor="email">
+              <div className={styles.formGroup}>
+                <label className={styles.label} htmlFor="email">
                   Email Address
                 </label>
                 <input
@@ -179,17 +170,15 @@ const Profile = () => {
                   name="email"
                   value={email}
                   onChange={onChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                    formErrors.email ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-                  }`}
+                  className={formErrors.email ? `${styles.input} ${styles.inputError}` : styles.input}
                 />
                 {formErrors.email && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>
+                  <p className={styles.errorMessage}>{formErrors.email}</p>
                 )}
               </div>
               
-              <div className="mb-6">
-                <label className="block text-gray-700 mb-2" htmlFor="phone">
+              <div className={styles.formGroup}>
+                <label className={styles.label} htmlFor="phone">
                   Phone Number
                 </label>
                 <input
@@ -198,19 +187,17 @@ const Profile = () => {
                   name="phone"
                   value={phone}
                   onChange={onChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                    formErrors.phone ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-                  }`}
+                  className={formErrors.phone ? `${styles.input} ${styles.inputError}` : styles.input}
                   placeholder="e.g., +1 (555) 123-4567"
                 />
                 {formErrors.phone && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.phone}</p>
+                  <p className={styles.errorMessage}>{formErrors.phone}</p>
                 )}
               </div>
               
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-medium"
+                className={styles.submitButton}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Saving...' : 'Save Changes'}
@@ -220,8 +207,8 @@ const Profile = () => {
           
           {activeTab === 'security' && (
             <form onSubmit={handlePasswordUpdate}>
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2" htmlFor="currentPassword">
+              <div className={styles.formGroup}>
+                <label className={styles.label} htmlFor="currentPassword">
                   Current Password
                 </label>
                 <input
@@ -230,17 +217,15 @@ const Profile = () => {
                   name="currentPassword"
                   value={currentPassword}
                   onChange={onChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                    formErrors.currentPassword ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-                  }`}
+                  className={formErrors.currentPassword ? `${styles.input} ${styles.inputError}` : styles.input}
                 />
                 {formErrors.currentPassword && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.currentPassword}</p>
+                  <p className={styles.errorMessage}>{formErrors.currentPassword}</p>
                 )}
               </div>
               
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2" htmlFor="newPassword">
+              <div className={styles.formGroup}>
+                <label className={styles.label} htmlFor="newPassword">
                   New Password
                 </label>
                 <input
@@ -249,17 +234,15 @@ const Profile = () => {
                   name="newPassword"
                   value={newPassword}
                   onChange={onChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                    formErrors.newPassword ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-                  }`}
+                  className={formErrors.newPassword ? `${styles.input} ${styles.inputError}` : styles.input}
                 />
                 {formErrors.newPassword && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.newPassword}</p>
+                  <p className={styles.errorMessage}>{formErrors.newPassword}</p>
                 )}
               </div>
               
-              <div className="mb-6">
-                <label className="block text-gray-700 mb-2" htmlFor="confirmPassword">
+              <div className={styles.formGroup}>
+                <label className={styles.label} htmlFor="confirmPassword">
                   Confirm New Password
                 </label>
                 <input
@@ -268,18 +251,16 @@ const Profile = () => {
                   name="confirmPassword"
                   value={confirmPassword}
                   onChange={onChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                    formErrors.confirmPassword ? 'border-red-500 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-200'
-                  }`}
+                  className={formErrors.confirmPassword ? `${styles.input} ${styles.inputError}` : styles.input}
                 />
                 {formErrors.confirmPassword && (
-                  <p className="text-red-500 text-sm mt-1">{formErrors.confirmPassword}</p>
+                  <p className={styles.errorMessage}>{formErrors.confirmPassword}</p>
                 )}
               </div>
               
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-medium"
+                className={styles.submitButton}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Updating...' : 'Update Password'}
