@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { SecurityProvider } from './context/SecurityContext';
+import { AuthProvider } from './context/AuthContext.js';
+import { SecurityProvider } from './context/SecurityContext.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,12 +12,12 @@ import Footer from './components/layout/Footer';
 // Pages
 import Home from './pages/Home';
 import Register from './pages/auth/Register';
-import Login from './pages/auth/Login';
+import Login from './pages/auth/Login.js';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import SensorManagement from './pages/SensorManagement';
-import Security from './pages/Security';
-import Profile from './pages/Profile';
+import Security from './pages/Security.js';
+import Profile from './pages/Profile.js';
 import NotFound from './pages/NotFound';
 
 // Private Route Component
