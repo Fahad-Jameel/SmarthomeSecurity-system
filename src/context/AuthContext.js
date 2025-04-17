@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from 'react';
+import React, { createContext, useReducer, useEffect, useRef } from 'react';
 import axios from 'axios';
 import authReducer from '../reducers/authReducer';
 
@@ -16,9 +16,18 @@ const initialState = {
 // Provider component
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const authAttemptedRef = useRef(false);
 
   // Load user
   const loadUser = async () => {
+    // Prevent multiple auth attempts
+    if (authAttemptedRef.current) {
+      console.log('Auth already attempted, skipping loadUser');
+      return;
+    }
+    
+    authAttemptedRef.current = true;
+    
     try {
       console.log('Loading user data...');
       const res = await axios.get('/api/auth/me');
@@ -28,22 +37,33 @@ export const AuthProvider = ({ children }) => {
         type: 'USER_LOADED',
         payload: res.data.data
       });
+      
       return true;
     } catch (err) {
       console.error('Load user error:', err);
       
-      // Only dispatch AUTH_ERROR if it's not a network error
-      // Network errors might be temporary and shouldn't log the user out
-      if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
+      // If we get a 401 Unauthorized, that's expected for non-authenticated users
+      if (err.response && err.response.status === 401) {
+        console.log('User not authenticated (401)');
+        // Clear any local storage to ensure we don't get stuck in a loop
+        localStorage.removeItem('isAuthenticated');
+        
+        dispatch({ type: 'AUTH_ERROR' });
+      } else if (err.response) {
+        // Other response error
         dispatch({ type: 'AUTH_ERROR' });
       } else {
-        // The request was made but no response was received or
-        // something happened in setting up the request that triggered an Error
-        console.error('Network error or request setup error, not logging out user');
+        // Network error - don't log out the user
+        console.warn('Network error loading user, not logging out');
+        dispatch({ type: 'CLEAR_ERRORS' });
       }
+      
       return false;
+    } finally {
+      // Reset the ref after a delay to allow future attempts
+      setTimeout(() => {
+        authAttemptedRef.current = false;
+      }, 5000);
     }
   };
 
@@ -104,6 +124,9 @@ export const AuthProvider = ({ children }) => {
       // Store authentication state in localStorage
       localStorage.setItem('isAuthenticated', 'true');
       
+      // Reset auth attempt flag to allow loadUser to run
+      authAttemptedRef.current = false;
+      
       // Load user data
       await loadUser();
       return true;
@@ -122,6 +145,7 @@ export const AuthProvider = ({ children }) => {
   // Logout
   const logout = async () => {
     try {
+      console.log('Logging out user...');
       await axios.get('/api/auth/logout');
       localStorage.removeItem('isAuthenticated');
       dispatch({ type: 'LOGOUT' });
@@ -162,15 +186,26 @@ export const AuthProvider = ({ children }) => {
   // Clear errors
   const clearErrors = () => dispatch({ type: 'CLEAR_ERRORS' });
 
-  // Effect to load user on mount or when authentication state changes
+  // Effect to load user on mount if authenticated
   useEffect(() => {
-    if (state.isAuthenticated && !state.user && !state.loading) {
+    console.log('AuthContext: Initial auth check running');
+    
+    // Only attempt to load user if authenticated according to localStorage
+    // and we haven't already attempted auth
+    if (state.isAuthenticated && !state.user && state.loading && !authAttemptedRef.current) {
+      console.log('AuthContext: Loading user on initial mount');
       loadUser();
-    } else if (!state.isAuthenticated && !state.loading) {
-      // If not authenticated and not loading, make sure loading is complete
-      dispatch({ type: 'CLEAR_ERRORS' });
+    } else if (!state.isAuthenticated && state.loading) {
+      // If not authenticated, just set loading to false
+      console.log('AuthContext: Not authenticated, completing loading');
+      dispatch({ type: 'AUTH_ERROR' });
     }
-  }, [state.isAuthenticated, state.user, state.loading]);
+    
+    // Cleanup function
+    return () => {
+      console.log('AuthContext: Cleanup');
+    };
+  }, []);  // Empty dependency array = run once on mount
 
   return (
     <AuthContext.Provider

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { SecurityContext } from '../context/SecurityContext';
 import { AuthContext } from '../context/AuthContext';
 import SystemStatus from '../components/dashboard/SystemStatus.js';
@@ -7,185 +7,124 @@ import RecentActivity from '../components/dashboard/RecentActivity';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import styles from './Dashboard.module.css';
 
+import DebugPanel from './DebugPanel.js';
 const Dashboard = () => {
-  const { user, isAuthenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { 
     systemStatus, 
     sensors, 
     logs, 
     loading, 
-    error,
     getSensors, 
     getLogs, 
-    changeSystemState,
-    clearErrors
+    changeSystemState 
   } = useContext(SecurityContext);
   
   const [refreshing, setRefreshing] = useState(false);
-  const [loadingFailed, setLoadingFailed] = useState(false);
-  const [retryCount, setRetryCount] = useState(0);
+  const [refreshCount, setRefreshCount] = useState(0);
 
-  useEffect(() => {
-    let isMounted = true;
-    
-    const fetchData = async () => {
-      if (!isAuthenticated) return;
-      
-      try {
-        if (isMounted) {
-          setRefreshing(true);
-          
-          // Use Promise.allSettled to continue even if one request fails
-          const results = await Promise.allSettled([
-            getSensors(), 
-            getLogs()
-          ]);
-          
-          // Check if any of the promises were rejected
-          const hasFailures = results.some(result => result.status === 'rejected');
-          
-          if (isMounted) {
-            setRefreshing(false);
-            setLoadingFailed(hasFailures);
-            
-            if (hasFailures) {
-              console.error('Some data failed to load:', 
-                results.filter(r => r.status === 'rejected').map(r => r.reason)
-              );
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-        if (isMounted) {
-          setRefreshing(false);
-          setLoadingFailed(true);
-        }
-      }
-    };
-    
-    fetchData();
-    
-    // Only set up refresh interval if first load succeeded
-    let interval;
-    if (!loadingFailed) {
-      // Refresh data every 60 seconds, but only if component is still mounted
-      interval = setInterval(() => {
-        if (isMounted && isAuthenticated) {
-          fetchData();
-        }
-      }, 60000);
-    }
-    
-    // Cleanup function to prevent memory leaks
-    return () => {
-      isMounted = false;
-      if (interval) clearInterval(interval);
-    };
-  }, [getSensors, getLogs, isAuthenticated, loadingFailed, retryCount]);
-  
-  // Clear errors when component unmounts or when errors are shown
-  useEffect(() => {
-    if (error) {
-      console.error('Security context error:', error);
-    }
-    
-    return () => {
-      if (clearErrors) clearErrors();
-    };
-  }, [error, clearErrors]);
-
-  const handleRefresh = async () => {
-    if (refreshing) return; // Prevent multiple refresh calls
-    
-    setRefreshing(true);
-    setLoadingFailed(false);
-    
+  // Create stable callback functions to prevent effect dependencies from changing
+  const fetchData = useCallback(async () => {
     try {
-      // Use Promise.allSettled to continue even if one request fails
-      const results = await Promise.allSettled([
-        getSensors(), 
-        getLogs()
-      ]);
-      
-      // Check if any of the promises were rejected
-      const hasFailures = results.some(result => result.status === 'rejected');
-      setLoadingFailed(hasFailures);
-      
-      if (hasFailures) {
-        console.error('Some data failed to load during refresh:', 
-          results.filter(r => r.status === 'rejected').map(r => r.reason)
-        );
+      setRefreshing(true);
+      // Use Promise.all with error handling
+      try {
+        await Promise.all([getSensors(), getLogs()]);
+      } catch (error) {
+        console.error('Error in fetchData:', error);
       }
+      setRefreshing(false);
     } catch (error) {
-      console.error('Error during refresh:', error);
-      setLoadingFailed(true);
-    } finally {
+      console.error('Error fetching dashboard data:', error);
       setRefreshing(false);
     }
+  }, [getSensors, getLogs]);
+
+  // This effect will run once on mount and whenever fetchData changes
+  // (which should be never due to useCallback)
+  useEffect(() => {
+    console.log('Dashboard: Initial data fetching');
+    let isMounted = true;
+    
+    const initialFetch = async () => {
+      if (isMounted) {
+        await fetchData();
+      }
+    };
+    
+    initialFetch();
+    
+    // Set up refresh interval
+    const interval = setInterval(() => {
+      if (isMounted) {
+        console.log('Dashboard: Refreshing data on interval');
+        fetchData();
+      }
+    }, 60000); // 60 seconds
+    
+    // Cleanup function
+    return () => {
+      console.log('Dashboard: Cleaning up');
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [fetchData, refreshCount]);
+  
+  const handleRefresh = () => {
+    if (refreshing) return; // Prevent multiple refresh calls
+    console.log('Dashboard: Manual refresh triggered');
+    fetchData();
   };
   
   const handleRetry = () => {
-    setRetryCount(prev => prev + 1);
-    setLoadingFailed(false);
-    handleRefresh();
+    console.log('Dashboard: Retry triggered');
+    setRefreshCount(prev => prev + 1); // Force effect to re-run
   };
   
   const handleArmDisarm = async (action) => {
-    try {
-      await changeSystemState(action);
-    } catch (error) {
-      console.error('Error changing system state:', error);
-    }
+    await changeSystemState(action);
   };
   
-  // Show loading spinner only on initial load
-  if (loading && sensors.length === 0 && !loadingFailed) {
+  // Only show loading spinner on initial load, not during refreshes
+  if (loading && sensors.length === 0 && !refreshing) {
     return <LoadingSpinner />;
-  }
-  
-  // Show error state if loading failed
-  if (loadingFailed) {
-    return (
-      <div className={styles.errorContainer || 'error-container'}>
-        <h2>Unable to load dashboard data</h2>
-        <p>There was a problem connecting to the server. Please check your connection and try again.</p>
-        <button 
-          onClick={handleRetry} 
-          className={styles.retryButton || 'retry-button'}
-          disabled={refreshing}
-        >
-          {refreshing ? 'Retrying...' : 'Retry'}
-        </button>
-      </div>
-    );
   }
   
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Welcome, {user?.name || 'User'}</h1>
-        <button 
-          onClick={handleRefresh} 
-          className={styles.refreshButton}
-          disabled={refreshing}
-        >
-          <svg 
-            className={`${styles.refreshIcon} ${refreshing ? styles.spinning : ''}`} 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24" 
-            xmlns="http://www.w3.org/2000/svg"
+        <div className={styles.actionButtons}>
+          <button 
+            onClick={handleRefresh} 
+            className={styles.refreshButton}
+            disabled={refreshing}
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
-            />
-          </svg>
-          {refreshing ? 'Refreshing...' : 'Refresh'}
-        </button>
+            <svg 
+              className={`${styles.refreshIcon} ${refreshing ? styles.spinning : ''}`} 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+              />
+            </svg>
+            {refreshing ? 'Refreshing...' : 'Refresh'}
+          </button>
+          {sensors.length === 0 && !loading && (
+            <button 
+              onClick={handleRetry} 
+              className={styles.retryButton || 'retry-button'}
+            >
+              Retry Loading
+            </button>
+          )}
+        </div>
       </div>
       
       <div className={styles.grid}>
@@ -235,6 +174,7 @@ const Dashboard = () => {
           <RecentActivity logs={logs.slice(0, 10)} />
         </div>
       </div>
+      <DebugPanel />
     </div>
   );
 };
