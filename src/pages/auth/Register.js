@@ -23,6 +23,7 @@ const Register = () => {
   useEffect(() => {
     // Redirect if authenticated
     if (isAuthenticated) {
+      toast.success('Registration successful!');
       navigate('/dashboard');
     }
 
@@ -61,10 +62,7 @@ const Register = () => {
     
     // Password validation
     if (!password) errors.password = 'Password is required';
-    else if (password.length < 8) errors.password = 'Password must be at least 8 characters';
-    else if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/.test(password)) {
-      errors.password = 'Password must include uppercase, lowercase, number, and special character';
-    }
+    else if (password.length < 6) errors.password = 'Password must be at least 6 characters';
     
     // Confirm password validation
     if (password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
@@ -84,15 +82,17 @@ const Register = () => {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
+        console.log('Submitting registration with:', { name, email, password, phone });
+        
         await register({
           name,
           email,
           password,
           phone
         });
-        toast.success('Registration successful!');
       } catch (err) {
         console.error('Registration error:', err);
+        toast.error('Registration failed. Please try again.');
       } finally {
         setIsSubmitting(false);
       }

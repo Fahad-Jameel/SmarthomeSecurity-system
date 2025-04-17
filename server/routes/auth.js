@@ -3,7 +3,8 @@ const {
   register,
   login,
   logout,
-  getMe
+  getMe,
+  hello
 } = require('../controllers/authController');
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.post('/register', register);
 router.post('/login', login);
 router.get('/logout', logout);
 router.get('/me', protect, getMe);
+router.get('/hello', hello);  // Add semicolon for consistency
 
 module.exports = router;

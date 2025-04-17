@@ -18,21 +18,24 @@ const initialState = {
 export const SecurityProvider = ({ children }) => {
   const [state, dispatch] = useReducer(securityReducer, initialState);
 
+  // Set loading
+  const setLoading = () => dispatch({ type: 'SET_LOADING' });
+
   // Get all sensors
   const getSensors = async () => {
+    setLoading();
     try {
-      dispatch({ type: 'SET_LOADING' });
+      const res = await axios.get('/localhost:5000/api/sensors');
       
-      const res = await axios.get('/api/sensors');
-
       dispatch({
         type: 'GET_SENSORS_SUCCESS',
         payload: res.data.data
       });
     } catch (err) {
+      console.error('Error fetching sensors:', err);
       dispatch({
         type: 'SECURITY_ERROR',
-        payload: err.response.data.error
+        payload: err.response?.data?.error || 'Error fetching sensors'
       });
     }
   };
@@ -46,18 +49,18 @@ export const SecurityProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.post('/api/sensors', sensorData, config);
-
+      const res = await axios.post('/localhost:5000/api/sensors', sensorData, config);
+      
       dispatch({
         type: 'ADD_SENSOR_SUCCESS',
         payload: res.data.data
       });
-
+      
       return res.data.data;
     } catch (err) {
       dispatch({
         type: 'SECURITY_ERROR',
-        payload: err.response.data.error
+        payload: err.response?.data?.error || 'Error adding sensor'
       });
       throw err;
     }
@@ -72,25 +75,28 @@ export const SecurityProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.put(`/api/sensors/${id}`, sensorData, config);
-
+      const res = await axios.put(`/localhost:5000/api/sensors/${id}`, sensorData, config);
+      
       dispatch({
         type: 'UPDATE_SENSOR_SUCCESS',
         payload: res.data.data
       });
+      
+      return res.data.data;
     } catch (err) {
       dispatch({
         type: 'SECURITY_ERROR',
-        payload: err.response.data.error
+        payload: err.response?.data?.error || 'Error updating sensor'
       });
+      throw err;
     }
   };
 
   // Delete sensor
   const deleteSensor = async (id) => {
     try {
-      await axios.delete(`/api/sensors/${id}`);
-
+      await axios.delete(`localhost:5000/api/sensors/${id}`);
+      
       dispatch({
         type: 'DELETE_SENSOR_SUCCESS',
         payload: id
@@ -98,12 +104,13 @@ export const SecurityProvider = ({ children }) => {
     } catch (err) {
       dispatch({
         type: 'SECURITY_ERROR',
-        payload: err.response.data.error
+        payload: err.response?.data?.error || 'Error deleting sensor'
       });
+      throw err;
     }
   };
 
-  // Arm/Disarm system
+  // Change system state (arm/disarm)
   const changeSystemState = async (state) => {
     const config = {
       headers: {
@@ -112,8 +119,8 @@ export const SecurityProvider = ({ children }) => {
     };
 
     try {
-      await axios.post('/api/security/system', { state }, config);
-
+      await axios.post('localhost:5000/api/security/system', { state: state === 'disarmed' ? 'disarm' : 'arm' }, config);
+      
       dispatch({
         type: 'CHANGE_SYSTEM_STATE',
         payload: state
@@ -121,26 +128,27 @@ export const SecurityProvider = ({ children }) => {
     } catch (err) {
       dispatch({
         type: 'SECURITY_ERROR',
-        payload: err.response.data.error
+        payload: err.response?.data?.error || 'Error changing system state'
       });
+      throw err;
     }
   };
 
   // Get security logs
   const getLogs = async () => {
+    setLoading();
     try {
-      dispatch({ type: 'SET_LOADING' });
+      const res = await axios.get('localhost:5000/api/security/logs');
       
-      const res = await axios.get('/api/security/logs');
-
       dispatch({
         type: 'GET_LOGS_SUCCESS',
         payload: res.data.data
       });
     } catch (err) {
+      console.error('Error fetching logs:', err);
       dispatch({
         type: 'SECURITY_ERROR',
-        payload: err.response.data.error
+        payload: err.response?.data?.error || 'Error fetching logs'
       });
     }
   };
@@ -154,17 +162,20 @@ export const SecurityProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.post('/api/security/alert', alertData, config);
-
+      const res = await axios.post('localhost:5000/api/security/alert', alertData, config);
+      
       dispatch({
         type: 'ALERT_TRIGGERED',
         payload: res.data.data
       });
+      
+      return res.data.data;
     } catch (err) {
       dispatch({
         type: 'SECURITY_ERROR',
-        payload: err.response.data.error
+        payload: err.response?.data?.error || 'Error triggering alert'
       });
+      throw err;
     }
   };
 

@@ -21,6 +21,7 @@ const Login = () => {
   useEffect(() => {
     // Redirect if authenticated
     if (isAuthenticated) {
+      toast.success('Login successful!');
       navigate('/dashboard');
     }
 
@@ -62,6 +63,7 @@ const Login = () => {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
+        console.log('Submitting login form with:', { email, password, rememberMe });
         await login({
           email,
           password,
@@ -69,6 +71,7 @@ const Login = () => {
         });
       } catch (err) {
         console.error('Login error:', err);
+        toast.error('Login failed. Please check your credentials.');
       } finally {
         setIsSubmitting(false);
       }

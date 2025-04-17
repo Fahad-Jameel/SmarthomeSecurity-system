@@ -21,26 +21,54 @@ const Dashboard = () => {
   
   const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([getSensors(), getLogs()]);
-    };
-    
-    fetchData();
-    
-    // Refresh data every 60 seconds
-    const interval = setInterval(() => {
-      fetchData();
-    }, 60000);
-    
-    return () => clearInterval(interval);
-  }, [getSensors, getLogs]);
-  
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    await Promise.all([getSensors(), getLogs()]);
-    setRefreshing(false);
+  // In Dashboard.js - Replace the useEffect block with this improved version
+
+useEffect(() => {
+  let isMounted = true;
+  const fetchData = async () => {
+    try {
+      if (isMounted) {
+        setRefreshing(true);
+        await Promise.all([getSensors(), getLogs()]);
+        setRefreshing(false);
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      if (isMounted) {
+        setRefreshing(false);
+      }
+    }
   };
+  
+  fetchData();
+  
+  // Refresh data every 60 seconds, but only if component is still mounted
+  const interval = setInterval(() => {
+    if (isMounted) {
+      fetchData();
+    }
+  }, 60000);
+  
+  // Cleanup function to prevent memory leaks
+  return () => {
+    isMounted = false;
+    clearInterval(interval);
+  };
+}, [getSensors, getLogs]);
+
+// Also add this to fix the handleRefresh function
+const handleRefresh = async () => {
+  if (refreshing) return; // Prevent multiple refresh calls
+  
+  setRefreshing(true);
+  try {
+    await Promise.all([getSensors(), getLogs()]);
+  } catch (error) {
+    console.error('Error during refresh:', error);
+  } finally {
+    setRefreshing(false);
+  }
+};
   
   const handleArmDisarm = async (action) => {
     await changeSystemState(action);

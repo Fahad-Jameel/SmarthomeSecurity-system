@@ -19,7 +19,7 @@ import SensorManagement from './pages/SensorManagement';
 import Security from './pages/Security.js';
 import Profile from './pages/Profile.js';
 import NotFound from './pages/NotFound';
-
+import './utils/axiosConfig';
 // Private Route Component
 import PrivateRoute from './components/routing/PrivateRoute';
 
