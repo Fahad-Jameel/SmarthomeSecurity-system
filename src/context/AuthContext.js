@@ -13,10 +13,6 @@ const initialState = {
   error: null
 };
 
-// Set up axios defaults
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:5000';
-
 // Provider component
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -32,9 +28,22 @@ export const AuthProvider = ({ children }) => {
         type: 'USER_LOADED',
         payload: res.data.data
       });
+      return true;
     } catch (err) {
       console.error('Load user error:', err);
-      dispatch({ type: 'AUTH_ERROR' });
+      
+      // Only dispatch AUTH_ERROR if it's not a network error
+      // Network errors might be temporary and shouldn't log the user out
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        dispatch({ type: 'AUTH_ERROR' });
+      } else {
+        // The request was made but no response was received or
+        // something happened in setting up the request that triggered an Error
+        console.error('Network error or request setup error, not logging out user');
+      }
+      return false;
     }
   };
 
@@ -155,10 +164,13 @@ export const AuthProvider = ({ children }) => {
 
   // Effect to load user on mount or when authentication state changes
   useEffect(() => {
-    if (state.isAuthenticated) {
+    if (state.isAuthenticated && !state.user && !state.loading) {
       loadUser();
+    } else if (!state.isAuthenticated && !state.loading) {
+      // If not authenticated and not loading, make sure loading is complete
+      dispatch({ type: 'CLEAR_ERRORS' });
     }
-  }, [state.isAuthenticated]);
+  }, [state.isAuthenticated, state.user, state.loading]);
 
   return (
     <AuthContext.Provider

@@ -1,3 +1,5 @@
+// SecurityContext.js with fixed API URLs
+
 import React, { createContext, useReducer } from 'react';
 import axios from 'axios';
 import securityReducer from '../reducers/securityReducer';
@@ -25,7 +27,8 @@ export const SecurityProvider = ({ children }) => {
   const getSensors = async () => {
     setLoading();
     try {
-      const res = await axios.get('/localhost:5000/api/sensors');
+      // Fixed URL - removed 'localhost:5000'
+      const res = await axios.get('/api/sensors');
       
       dispatch({
         type: 'GET_SENSORS_SUCCESS',
@@ -49,7 +52,8 @@ export const SecurityProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.post('/localhost:5000/api/sensors', sensorData, config);
+      // Fixed URL - removed 'localhost:5000'
+      const res = await axios.post('/api/sensors', sensorData, config);
       
       dispatch({
         type: 'ADD_SENSOR_SUCCESS',
@@ -75,7 +79,8 @@ export const SecurityProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.put(`/localhost:5000/api/sensors/${id}`, sensorData, config);
+      // Fixed URL - removed 'localhost:5000'
+      const res = await axios.put(`/api/sensors/${id}`, sensorData, config);
       
       dispatch({
         type: 'UPDATE_SENSOR_SUCCESS',
@@ -95,7 +100,8 @@ export const SecurityProvider = ({ children }) => {
   // Delete sensor
   const deleteSensor = async (id) => {
     try {
-      await axios.delete(`localhost:5000/api/sensors/${id}`);
+      // Fixed URL - removed 'localhost:5000'
+      await axios.delete(`/api/sensors/${id}`);
       
       dispatch({
         type: 'DELETE_SENSOR_SUCCESS',
@@ -119,7 +125,8 @@ export const SecurityProvider = ({ children }) => {
     };
 
     try {
-      await axios.post('localhost:5000/api/security/system', { state: state === 'disarmed' ? 'disarm' : 'arm' }, config);
+      // Fixed URL - removed 'localhost:5000'
+      await axios.post('/api/security/system', { state: state === 'disarmed' ? 'disarm' : 'arm' }, config);
       
       dispatch({
         type: 'CHANGE_SYSTEM_STATE',
@@ -138,7 +145,8 @@ export const SecurityProvider = ({ children }) => {
   const getLogs = async () => {
     setLoading();
     try {
-      const res = await axios.get('localhost:5000/api/security/logs');
+      // Fixed URL - removed 'localhost:5000'
+      const res = await axios.get('/api/security/logs');
       
       dispatch({
         type: 'GET_LOGS_SUCCESS',
@@ -162,7 +170,8 @@ export const SecurityProvider = ({ children }) => {
     };
 
     try {
-      const res = await axios.post('localhost:5000/api/security/alert', alertData, config);
+      // Fixed URL - removed 'localhost:5000'
+      const res = await axios.post('/api/security/alert', alertData, config);
       
       dispatch({
         type: 'ALERT_TRIGGERED',

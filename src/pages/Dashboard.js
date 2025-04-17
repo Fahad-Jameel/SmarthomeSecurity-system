@@ -8,80 +8,163 @@ import LoadingSpinner from '../components/ui/LoadingSpinner';
 import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const { 
     systemStatus, 
     sensors, 
     logs, 
     loading, 
+    error,
     getSensors, 
     getLogs, 
-    changeSystemState 
+    changeSystemState,
+    clearErrors
   } = useContext(SecurityContext);
   
   const [refreshing, setRefreshing] = useState(false);
+  const [loadingFailed, setLoadingFailed] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
-  // In Dashboard.js - Replace the useEffect block with this improved version
+  useEffect(() => {
+    let isMounted = true;
+    
+    const fetchData = async () => {
+      if (!isAuthenticated) return;
+      
+      try {
+        if (isMounted) {
+          setRefreshing(true);
+          
+          // Use Promise.allSettled to continue even if one request fails
+          const results = await Promise.allSettled([
+            getSensors(), 
+            getLogs()
+          ]);
+          
+          // Check if any of the promises were rejected
+          const hasFailures = results.some(result => result.status === 'rejected');
+          
+          if (isMounted) {
+            setRefreshing(false);
+            setLoadingFailed(hasFailures);
+            
+            if (hasFailures) {
+              console.error('Some data failed to load:', 
+                results.filter(r => r.status === 'rejected').map(r => r.reason)
+              );
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        if (isMounted) {
+          setRefreshing(false);
+          setLoadingFailed(true);
+        }
+      }
+    };
+    
+    fetchData();
+    
+    // Only set up refresh interval if first load succeeded
+    let interval;
+    if (!loadingFailed) {
+      // Refresh data every 60 seconds, but only if component is still mounted
+      interval = setInterval(() => {
+        if (isMounted && isAuthenticated) {
+          fetchData();
+        }
+      }, 60000);
+    }
+    
+    // Cleanup function to prevent memory leaks
+    return () => {
+      isMounted = false;
+      if (interval) clearInterval(interval);
+    };
+  }, [getSensors, getLogs, isAuthenticated, loadingFailed, retryCount]);
+  
+  // Clear errors when component unmounts or when errors are shown
+  useEffect(() => {
+    if (error) {
+      console.error('Security context error:', error);
+    }
+    
+    return () => {
+      if (clearErrors) clearErrors();
+    };
+  }, [error, clearErrors]);
 
-useEffect(() => {
-  let isMounted = true;
-  const fetchData = async () => {
+  const handleRefresh = async () => {
+    if (refreshing) return; // Prevent multiple refresh calls
+    
+    setRefreshing(true);
+    setLoadingFailed(false);
+    
     try {
-      if (isMounted) {
-        setRefreshing(true);
-        await Promise.all([getSensors(), getLogs()]);
-        setRefreshing(false);
+      // Use Promise.allSettled to continue even if one request fails
+      const results = await Promise.allSettled([
+        getSensors(), 
+        getLogs()
+      ]);
+      
+      // Check if any of the promises were rejected
+      const hasFailures = results.some(result => result.status === 'rejected');
+      setLoadingFailed(hasFailures);
+      
+      if (hasFailures) {
+        console.error('Some data failed to load during refresh:', 
+          results.filter(r => r.status === 'rejected').map(r => r.reason)
+        );
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-      if (isMounted) {
-        setRefreshing(false);
-      }
+      console.error('Error during refresh:', error);
+      setLoadingFailed(true);
+    } finally {
+      setRefreshing(false);
     }
   };
   
-  fetchData();
-  
-  // Refresh data every 60 seconds, but only if component is still mounted
-  const interval = setInterval(() => {
-    if (isMounted) {
-      fetchData();
-    }
-  }, 60000);
-  
-  // Cleanup function to prevent memory leaks
-  return () => {
-    isMounted = false;
-    clearInterval(interval);
+  const handleRetry = () => {
+    setRetryCount(prev => prev + 1);
+    setLoadingFailed(false);
+    handleRefresh();
   };
-}, [getSensors, getLogs]);
-
-// Also add this to fix the handleRefresh function
-const handleRefresh = async () => {
-  if (refreshing) return; // Prevent multiple refresh calls
-  
-  setRefreshing(true);
-  try {
-    await Promise.all([getSensors(), getLogs()]);
-  } catch (error) {
-    console.error('Error during refresh:', error);
-  } finally {
-    setRefreshing(false);
-  }
-};
   
   const handleArmDisarm = async (action) => {
-    await changeSystemState(action);
+    try {
+      await changeSystemState(action);
+    } catch (error) {
+      console.error('Error changing system state:', error);
+    }
   };
   
-  if (loading && sensors.length === 0) {
+  // Show loading spinner only on initial load
+  if (loading && sensors.length === 0 && !loadingFailed) {
     return <LoadingSpinner />;
+  }
+  
+  // Show error state if loading failed
+  if (loadingFailed) {
+    return (
+      <div className={styles.errorContainer || 'error-container'}>
+        <h2>Unable to load dashboard data</h2>
+        <p>There was a problem connecting to the server. Please check your connection and try again.</p>
+        <button 
+          onClick={handleRetry} 
+          className={styles.retryButton || 'retry-button'}
+          disabled={refreshing}
+        >
+          {refreshing ? 'Retrying...' : 'Retry'}
+        </button>
+      </div>
+    );
   }
   
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Welcome, {user?.name}</h1>
+        <h1 className={styles.title}>Welcome, {user?.name || 'User'}</h1>
         <button 
           onClick={handleRefresh} 
           className={styles.refreshButton}
