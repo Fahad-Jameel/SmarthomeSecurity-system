@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { SecurityContext } from '../context/SecurityContext';
 import SystemStatus from '../components/dashboard/SystemStatus';
 import ActivityLog from '../components/security/ActivityLog';
@@ -16,18 +16,46 @@ const Security = () => {
   
   const [logsFilter, setLogsFilter] = useState('all');
   const [filteredLogs, setFilteredLogs] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
   
+  // Create stable callback for data fetching
+  const fetchLogs = useCallback(async () => {
+    if (refreshing) return; // Prevent concurrent fetches
+    
+    try {
+      console.log('Security: Fetching logs');
+      setRefreshing(true);
+      await getLogs();
+      console.log('Security: Logs fetched successfully');
+    } catch (error) {
+      console.error('Error fetching logs:', error);
+    } finally {
+      setRefreshing(false);
+      setInitialLoadComplete(true);
+    }
+  }, [getLogs, refreshing]);
+  
+  // Initial data load
   useEffect(() => {
-    getLogs();
+    console.log('Security: Initial logs fetch');
+    let isMounted = true;
     
-    // Refresh logs every 30 seconds
-    const interval = setInterval(() => {
-      getLogs();
-    }, 30000);
+    const initialFetch = async () => {
+      if (isMounted && !initialLoadComplete) {
+        await fetchLogs();
+      }
+    };
     
-    return () => clearInterval(interval);
-  }, [getLogs]);
+    initialFetch();
+    
+    return () => {
+      console.log('Security: Cleaning up');
+      isMounted = false;
+    };
+  }, [fetchLogs, initialLoadComplete]);
   
+  // Filter logs whenever the filter changes or logs update
   useEffect(() => {
     if (logsFilter === 'all') {
       setFilteredLogs(logs);
@@ -36,17 +64,51 @@ const Security = () => {
     }
   }, [logs, logsFilter]);
   
-  const handleArmDisarm = async (action) => {
-    await changeSystemState(action);
+  const handleRefresh = () => {
+    if (refreshing) return;
+    console.log('Security: Manual refresh triggered');
+    fetchLogs();
   };
   
-  if (loading && logs.length === 0) {
+  const handleArmDisarm = async (action) => {
+    try {
+      await changeSystemState(action);
+    } catch (error) {
+      console.error('Error changing system state:', error);
+    }
+  };
+  
+  // Only show loading spinner on initial load
+  if (loading && !initialLoadComplete) {
     return <LoadingSpinner />;
   }
   
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Security Control</h1>
+      <div className={styles.headerRow}>
+        <h1 className={styles.heading}>Security Control</h1>
+        <button 
+          onClick={handleRefresh} 
+          className={styles.refreshButton || 'refresh-button'}
+          disabled={refreshing}
+        >
+          <svg 
+            className={`${styles.refreshIcon || 'refresh-icon'} ${refreshing ? styles.spinning || 'spinning' : ''}`} 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+            />
+          </svg>
+          {refreshing ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
       
       <div className={styles.grid}>
         <div className={styles.col2Span}>

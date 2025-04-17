@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { SecurityContext } from '../context/SecurityContext';
 import AddSensorModal from '../components/sensors/AddSensorModal.js';
 import SensorCard from '../components/sensors/SensorCard.js';
@@ -11,11 +11,46 @@ const SensorManagement = () => {
   const [filteredSensors, setFilteredSensors] = useState([]);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
   
+  // Create stable callback for data fetching
+  const fetchSensors = useCallback(async () => {
+    if (refreshing) return; // Prevent concurrent fetches
+    
+    try {
+      console.log('SensorManagement: Fetching sensors');
+      setRefreshing(true);
+      await getSensors();
+      console.log('SensorManagement: Sensors fetched successfully');
+    } catch (error) {
+      console.error('Error fetching sensors:', error);
+    } finally {
+      setRefreshing(false);
+      setInitialLoadComplete(true);
+    }
+  }, [getSensors, refreshing]);
+  
+  // Initial data load on component mount
   useEffect(() => {
-    getSensors();
-  }, [getSensors]);
+    console.log('SensorManagement: Initial sensor fetch');
+    let isMounted = true;
+    
+    const initialFetch = async () => {
+      if (isMounted && !initialLoadComplete) {
+        await fetchSensors();
+      }
+    };
+    
+    initialFetch();
+    
+    return () => {
+      console.log('SensorManagement: Cleaning up');
+      isMounted = false;
+    };
+  }, [fetchSensors, initialLoadComplete]);
   
+  // Filter and search effect
   useEffect(() => {
     let result = [...sensors];
     
@@ -37,13 +72,24 @@ const SensorManagement = () => {
     setFilteredSensors(result);
   }, [sensors, filter, searchTerm]);
   
+  const handleRefresh = () => {
+    if (refreshing) return;
+    console.log('SensorManagement: Manual refresh triggered');
+    fetchSensors();
+  };
+  
   const handleDeleteSensor = async (id) => {
     if (window.confirm('Are you sure you want to delete this sensor?')) {
-      await deleteSensor(id);
+      try {
+        await deleteSensor(id);
+      } catch (error) {
+        console.error('Error deleting sensor:', error);
+      }
     }
   };
   
-  if (loading && sensors.length === 0) {
+  // Show loading spinner only on initial load
+  if (loading && !initialLoadComplete) {
     return <LoadingSpinner />;
   }
   
@@ -51,15 +97,38 @@ const SensorManagement = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Sensor Management</h1>
-        <button
-          onClick={() => setIsAddModalOpen(true)}
-          className={styles.addButton}
-        >
-          <svg className={styles.addIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-          Add Sensor
-        </button>
+        <div className={styles.headerButtons}>
+          <button
+            onClick={handleRefresh}
+            className={styles.refreshButton || 'refresh-button'}
+            disabled={refreshing}
+          >
+            <svg 
+              className={`${styles.refreshIcon || 'refresh-icon'} ${refreshing ? styles.spinning || 'spinning' : ''}`} 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+              />
+            </svg>
+            {refreshing ? 'Refreshing...' : 'Refresh'}
+          </button>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className={styles.addButton}
+          >
+            <svg className={styles.addIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Add Sensor
+          </button>
+        </div>
       </div>
       
       <div className={styles.searchCard}>

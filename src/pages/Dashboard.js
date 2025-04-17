@@ -7,7 +7,6 @@ import RecentActivity from '../components/dashboard/RecentActivity';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import styles from './Dashboard.module.css';
 
-import DebugPanel from './DebugPanel.js';
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const { 
@@ -21,72 +20,70 @@ const Dashboard = () => {
   } = useContext(SecurityContext);
   
   const [refreshing, setRefreshing] = useState(false);
-  const [refreshCount, setRefreshCount] = useState(0);
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
-  // Create stable callback functions to prevent effect dependencies from changing
+  // Create stable callback function to prevent effect dependencies from changing
   const fetchData = useCallback(async () => {
+    if (refreshing) return; // Prevent concurrent fetches
+    
     try {
+      console.log('Dashboard: Fetching data');
       setRefreshing(true);
+      
       // Use Promise.all with error handling
       try {
         await Promise.all([getSensors(), getLogs()]);
+        console.log('Dashboard: Data fetched successfully');
       } catch (error) {
         console.error('Error in fetchData:', error);
+      } finally {
+        setRefreshing(false);
+        setInitialLoadComplete(true);
       }
-      setRefreshing(false);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
       setRefreshing(false);
+      setInitialLoadComplete(true);
     }
-  }, [getSensors, getLogs]);
+  }, [getSensors, getLogs, refreshing]);
 
-  // This effect will run once on mount and whenever fetchData changes
-  // (which should be never due to useCallback)
+  // This effect will run once on mount to load initial data
   useEffect(() => {
     console.log('Dashboard: Initial data fetching');
     let isMounted = true;
     
     const initialFetch = async () => {
-      if (isMounted) {
+      if (isMounted && !initialLoadComplete) {
         await fetchData();
       }
     };
     
     initialFetch();
     
-    // Set up refresh interval
-    const interval = setInterval(() => {
-      if (isMounted) {
-        console.log('Dashboard: Refreshing data on interval');
-        fetchData();
-      }
-    }, 60000); // 60 seconds
-    
     // Cleanup function
     return () => {
       console.log('Dashboard: Cleaning up');
       isMounted = false;
-      clearInterval(interval);
     };
-  }, [fetchData, refreshCount]);
+  }, [fetchData, initialLoadComplete]);
   
+  // Manual refresh function - only triggered by button click
   const handleRefresh = () => {
     if (refreshing) return; // Prevent multiple refresh calls
     console.log('Dashboard: Manual refresh triggered');
     fetchData();
   };
   
-  const handleRetry = () => {
-    console.log('Dashboard: Retry triggered');
-    setRefreshCount(prev => prev + 1); // Force effect to re-run
-  };
-  
   const handleArmDisarm = async (action) => {
-    await changeSystemState(action);
+    try {
+      await changeSystemState(action);
+    } catch (error) {
+      console.error('Error changing system state:', error);
+    }
   };
   
   // Only show loading spinner on initial load, not during refreshes
-  if (loading && sensors.length === 0 && !refreshing) {
+  if (loading && !initialLoadComplete && !refreshing) {
     return <LoadingSpinner />;
   }
   
@@ -94,37 +91,27 @@ const Dashboard = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Welcome, {user?.name || 'User'}</h1>
-        <div className={styles.actionButtons}>
-          <button 
-            onClick={handleRefresh} 
-            className={styles.refreshButton}
-            disabled={refreshing}
+        <button 
+          onClick={handleRefresh} 
+          className={styles.refreshButton}
+          disabled={refreshing}
+        >
+          <svg 
+            className={`${styles.refreshIcon} ${refreshing ? styles.spinning : ''}`} 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24" 
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <svg 
-              className={`${styles.refreshIcon} ${refreshing ? styles.spinning : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24" 
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
-              />
-            </svg>
-            {refreshing ? 'Refreshing...' : 'Refresh'}
-          </button>
-          {sensors.length === 0 && !loading && (
-            <button 
-              onClick={handleRetry} 
-              className={styles.retryButton || 'retry-button'}
-            >
-              Retry Loading
-            </button>
-          )}
-        </div>
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+            />
+          </svg>
+          {refreshing ? 'Refreshing...' : 'Refresh'}
+        </button>
       </div>
       
       <div className={styles.grid}>
@@ -174,7 +161,6 @@ const Dashboard = () => {
           <RecentActivity logs={logs.slice(0, 10)} />
         </div>
       </div>
-      <DebugPanel />
     </div>
   );
 };
