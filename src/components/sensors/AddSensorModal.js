@@ -1,110 +1,130 @@
-import React, { useState, useContext } from 'react';
-import { SecurityContext } from '../../context/SecurityContext';
+import React, { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 import { toast } from 'react-toastify';
+import { SecurityContext } from '../../context/SecurityContext';
 import styles from './AddSensorModal.module.css';
 
 const AddSensorModal = ({ isOpen, onClose }) => {
   const { addSensor } = useContext(SecurityContext);
-  
-  const initialState = {
+  const [zones, setZones] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
     name: '',
     type: 'motion',
     location: '',
-    zone: 'default'
-  };
-  
-  const [formData, setFormData] = useState(initialState);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  const { name, type, location, zone } = formData;
-  
-  const onChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    
-    // Clear field error when user starts typing
-    if (formErrors[e.target.name]) {
-      setFormErrors({
-        ...formErrors,
-        [e.target.name]: ''
-      });
+    zone: ''
+  });
+
+  // Fetch zones when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      fetchZones();
+    }
+  }, [isOpen]);
+
+  const fetchZones = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.get('/api/zones');
+      
+      console.log('Zones API response:', res.data);
+      
+      // Handle different response formats
+      let zonesData = [];
+      if (Array.isArray(res.data)) {
+        zonesData = res.data;
+      } else if (res.data && Array.isArray(res.data.data)) {
+        zonesData = res.data.data;
+      } else if (res.data && Array.isArray(res.data.zones)) {
+        zonesData = res.data.zones;
+      } else {
+        console.error('Unexpected zones data format:', res.data);
+        zonesData = [];
+      }
+      
+      setZones(zonesData);
+      setIsLoading(false);
+    } catch (err) {
+      console.error('Error fetching zones:', err);
+      toast.error('Failed to fetch zones');
+      setIsLoading(false);
     }
   };
-  
-  const validateForm = () => {
-    const errors = {};
-    
-    if (!name.trim()) errors.name = 'Sensor name is required';
-    if (!location.trim()) errors.location = 'Location is required';
-    
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
-  
-  const onSubmit = async e => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (validateForm()) {
-      setIsSubmitting(true);
-      try {
-        await addSensor(formData);
-        toast.success(`${type} sensor added successfully!`);
-        setFormData(initialState);
-        onClose();
-      } catch (err) {
-        toast.error(err.response?.data?.error || 'Failed to add sensor');
-      } finally {
-        setIsSubmitting(false);
+    if (!formData.name || !formData.location) {
+      toast.error('Please provide all required fields');
+      return;
+    }
+    
+    try {
+      // Create a sensor object with or without zone
+      const sensorData = { ...formData };
+      
+      // Only include zone if one is selected
+      if (!formData.zone) {
+        delete sensorData.zone;
       }
+      
+      await addSensor(sensorData);
+      resetForm();
+      onClose();
+      toast.success('Sensor added successfully');
+    } catch (error) {
+      console.error('Error adding sensor:', error);
+      toast.error('Failed to add sensor');
     }
   };
-  
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      type: 'motion',
+      location: '',
+      zone: ''
+    });
+  };
+
   if (!isOpen) return null;
-  
+
   return (
     <div className={styles.modalOverlay}>
-      <div className={styles.modalContainer}>
+      <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h3 className={styles.modalTitle}>Add New Sensor</h3>
-          <button
-            onClick={onClose}
-            className={styles.closeButton}
-          >
-            <svg className={styles.closeIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <h2>Add New Sensor</h2>
+          <button className={styles.closeButton} onClick={onClose}>×</button>
         </div>
-        
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit} className={styles.modalBody}>
           <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="name">
-              Sensor Name
-            </label>
+            <label htmlFor="name">Sensor Name *</label>
             <input
               type="text"
               id="name"
               name="name"
-              value={name}
-              onChange={onChange}
-              className={formErrors.name ? `${styles.input} ${styles.inputError}` : styles.input}
-              placeholder="e.g., Living Room Motion Sensor"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="e.g. Living Room Motion Sensor"
+              required
             />
-            {formErrors.name && (
-              <p className={styles.errorMessage}>{formErrors.name}</p>
-            )}
           </div>
-          
+
           <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="type">
-              Sensor Type
-            </label>
+            <label htmlFor="type">Sensor Type *</label>
             <select
               id="type"
               name="type"
-              value={type}
-              onChange={onChange}
-              className={styles.select}
+              value={formData.type}
+              onChange={handleChange}
+              required
             >
               <option value="motion">Motion Sensor</option>
               <option value="door">Door Sensor</option>
@@ -114,60 +134,54 @@ const AddSensorModal = ({ isOpen, onClose }) => {
               <option value="temperature">Temperature Sensor</option>
             </select>
           </div>
-          
+
           <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="location">
-              Location
-            </label>
+            <label htmlFor="location">Location *</label>
             <input
               type="text"
               id="location"
               name="location"
-              value={location}
-              onChange={onChange}
-              className={formErrors.location ? `${styles.input} ${styles.inputError}` : styles.input}
-              placeholder="e.g., Living Room, Front Door"
+              value={formData.location}
+              onChange={handleChange}
+              placeholder="e.g. Living Room"
+              required
             />
-            {formErrors.location && (
-              <p className={styles.errorMessage}>{formErrors.location}</p>
-            )}
           </div>
-          
+
           <div className={styles.formGroup}>
-            <label className={styles.label} htmlFor="zone">
-              Zone
-            </label>
+            <label htmlFor="zone">Zone (Optional)</label>
             <select
               id="zone"
               name="zone"
-              value={zone}
-              onChange={onChange}
-              className={styles.select}
+              value={formData.zone}
+              onChange={handleChange}
             >
-              <option value="default">Default</option>
-              <option value="perimeter">Perimeter</option>
-              <option value="interior">Interior</option>
-              <option value="upstairs">Upstairs</option>
-              <option value="downstairs">Downstairs</option>
-              <option value="garage">Garage</option>
-              <option value="basement">Basement</option>
+              <option value="">No Zone</option>
+              {isLoading ? (
+                <option disabled>Loading zones...</option>
+              ) : (
+                zones.map(zone => (
+                  <option key={zone._id} value={zone._id}>
+                    {zone.name}
+                  </option>
+                ))
+              )}
             </select>
           </div>
-          
-          <div className={styles.buttonContainer}>
-            <button
-              type="button"
-              onClick={onClose}
+
+          <div className={styles.modalFooter}>
+            <button 
+              type="button" 
+              onClick={() => {
+                resetForm();
+                onClose();
+              }}
               className={styles.cancelButton}
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Adding...' : 'Add Sensor'}
+            <button type="submit" className={styles.submitButton}>
+              Add Sensor
             </button>
           </div>
         </form>
