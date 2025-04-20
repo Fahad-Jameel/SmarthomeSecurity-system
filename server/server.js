@@ -64,6 +64,13 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/sensors', require('./routes/sensors'));
 app.use('/api/security', require('./routes/security'));
+
+// Sprint 2 Routes
+app.use('/api/cameras', require('./routes/cameras'));
+app.use('/api/activities', require('./routes/activities'));
+app.use('/api/zones', require('./routes/zones'));
+app.use('/api/access-codes', require('./routes/access-codes'));
+app.use('/api/smart-locks', require('./routes/smart-locks'));
 app.use('/api/notifications', require('./routes/notifications'));
 
 // Error handling middleware

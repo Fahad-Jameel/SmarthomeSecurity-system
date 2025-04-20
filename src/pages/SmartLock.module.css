@@ -1,0 +1,491 @@
+.container {
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .addButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #4169E1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .addButton:hover {
+    background-color: #3658c5;
+  }
+  
+  .addButton:disabled {
+    background-color: #a3b6e0;
+    cursor: not-allowed;
+  }
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .noLocks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .noLocks h3 {
+    margin: 1rem 0 0.5rem;
+  }
+  
+  .noLocks p {
+    color: #666;
+    max-width: 400px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .scanButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #4169E1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .scanButton:hover {
+    background-color: #3658c5;
+  }
+  
+  .scanButton:disabled {
+    background-color: #a3b6e0;
+    cursor: not-allowed;
+  }
+  
+  .spinning {
+    animation: spin 1.5s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .locksList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .lockCard {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .lockHeader {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+  }
+  
+  .lockInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .lockInfo h3 {
+    margin: 0;
+    font-size: 1.125rem;
+  }
+  
+  .statusBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .locked {
+    background-color: #e6f7ff;
+    color: #0070f3;
+  }
+  
+  .unlocked {
+    background-color: #fff2e6;
+    color: #fa8c16;
+  }
+  
+  .jammed {
+    background-color: #fff1f0;
+    color: #f5222d;
+  }
+  
+  .offline {
+    background-color: #f5f5f5;
+    color: #8c8c8c;
+  }
+  
+  .lockActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .toggleButton {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 4px;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .toggleButton.locked {
+    background-color: #e6f7ff;
+    color: #0070f3;
+  }
+  
+  .toggleButton.locked:hover {
+    background-color: #bae0ff;
+  }
+  
+  .toggleButton.unlocked {
+    background-color: #fff2e6;
+    color: #fa8c16;
+  }
+  
+  .toggleButton.unlocked:hover {
+    background-color: #ffd8b3;
+  }
+  
+  .toggleButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .expandButton {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem;
+    border-radius: 4px;
+    color: #666;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .expandButton:hover {
+    background-color: #eee;
+  }
+  
+  .lockDetails {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    background-color: white;
+  }
+  
+  .detailSection {
+    margin-bottom: 1.25rem;
+  }
+  
+  .detailSection h4 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-size: 0.9375rem;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .detailItem {
+    display: flex;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .detailLabel {
+    flex: 0 0 100px;
+    color: #666;
+  }
+  
+  .batteryLevel {
+    font-weight: 500;
+  }
+  
+  .settingItem {
+    margin-bottom: 0.75rem;
+  }
+  
+  .settingItem label {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  
+  .settingItem input[type="checkbox"] {
+    accent-color: #4169E1;
+  }
+  
+  .detailActions {
+    margin-top: 1.25rem;
+  }
+  
+  .settingsButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .settingsButton:hover {
+    background-color: #e6e6e6;
+  }
+  
+  /* Modal Styles */
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background-color: white;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .modalHeader {
+    padding: 1.25rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modalHeader h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  
+  .closeButton:hover {
+    color: #333;
+  }
+  
+  .modalBody {
+    padding: 1.25rem;
+  }
+  
+  .scanSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .scanSection p {
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #666;
+  }
+  
+  .availableLocks {
+    margin-top: 1.5rem;
+  }
+  
+  .availableLocks h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .lockOptions {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .lockOption {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .lockOption:last-child {
+    border-bottom: none;
+  }
+  
+  .lockOption:hover {
+    background-color: #f5f8ff;
+  }
+  
+  .lockOption.selected {
+    background-color: #e6efff;
+  }
+  
+  .lockOption svg {
+    margin-right: 0.75rem;
+    color: #4169E1;
+  }
+  
+  .lockOptionInfo {
+    flex: 1;
+  }
+  
+  .lockName {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  
+  .lockModel {
+    display: block;
+    font-size: 0.75rem;
+    color: #666;
+  }
+  
+  .lockOptionCheck {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4169E1;
+    font-weight: bold;
+  }
+  
+  .noLocksFound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #666;
+  }
+  
+  .noLocksFound svg {
+    color: #ffcc00;
+    margin-bottom: 1rem;
+  }
+  
+  .modalFooter {
+    padding: 1.25rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+  
+  .cancelButton {
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 4px;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .cancelButton:hover {
+    background-color: #e6e6e6;
+  }
+  
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .lockHeader {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .lockInfo {
+      margin-bottom: 0.75rem;
+    }
+    
+    .lockActions {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }

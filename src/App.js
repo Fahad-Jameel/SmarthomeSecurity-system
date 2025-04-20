@@ -19,6 +19,15 @@ import SensorManagement from './pages/SensorManagement';
 import Security from './pages/Security.js';
 import Profile from './pages/Profile.js';
 import NotFound from './pages/NotFound';
+
+// Sprint 2 Pages
+import LiveCameraFeed from './pages/LiveCameraFeed';
+import ActivityLog from './pages/ActivityLog';
+import ZoneManagement from './pages/ZoneManagement';
+import GuestAccess from './pages/GuestAccess';
+import SmartLock from './pages/SmartLock';
+import NotificationCenter from './pages/NotificationCenter';
+
 import './utils/axiosConfig';
 // Private Route Component
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -71,6 +80,57 @@ const App = () => {
                     </PrivateRoute>
                   } 
                 />
+                
+                {/* Sprint 2 Routes */}
+                <Route 
+                  path="/cameras" 
+                  element={
+                    <PrivateRoute>
+                      <LiveCameraFeed />
+                    </PrivateRoute>
+                  } 
+                />
+                <Route 
+                  path="/activity" 
+                  element={
+                    <PrivateRoute>
+                      <ActivityLog />
+                    </PrivateRoute>
+                  } 
+                />
+                <Route 
+                  path="/zones" 
+                  element={
+                    <PrivateRoute>
+                      <ZoneManagement />
+                    </PrivateRoute>
+                  } 
+                />
+                <Route 
+                  path="/guests" 
+                  element={
+                    <PrivateRoute>
+                      <GuestAccess />
+                    </PrivateRoute>
+                  } 
+                />
+                <Route 
+                  path="/smart-locks" 
+                  element={
+                    <PrivateRoute>
+                      <SmartLock />
+                    </PrivateRoute>
+                  } 
+                />
+                <Route 
+                  path="/notifications" 
+                  element={
+                    <PrivateRoute>
+                      <NotificationCenter />
+                    </PrivateRoute>
+                  } 
+                />
+                
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
