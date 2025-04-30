@@ -1,0 +1,193 @@
+/* LanguageSettings.module.css */
+.container {
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  
+  .languageCard {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+  }
+  
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .cardHeader svg {
+    color: #2563eb;
+    margin-right: 0.75rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .description {
+    color: #4b5563;
+    margin-bottom: 2rem;
+  }
+  
+  .languageSelector {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .currentLanguage {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    background-color: white;
+    transition: all 0.2s;
+  }
+  
+  .currentLanguage:hover {
+    border-color: #2563eb;
+  }
+  
+  .flag {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+  }
+  
+  .languageName {
+    flex-grow: 1;
+    font-weight: 500;
+  }
+  
+  .chevron {
+    transition: transform 0.2s;
+  }
+  
+  .chevron.open {
+    transform: rotate(180deg);
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background-color: white;
+    border-radius: 0.375rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .dropdownList {
+    padding: 0.5rem 0;
+  }
+  
+  .languageOption {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .languageOption:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .languageOption.active {
+    background-color: #eff6ff;
+    color: #2563eb;
+  }
+  
+  .optionFlag {
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+  }
+  
+  .optionName {
+    flex-grow: 1;
+  }
+  
+  .checkIcon {
+    color: #2563eb;
+  }
+  
+  .infoCard, .feedbackCard {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+  }
+  
+  .infoTitle, .feedbackTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+  }
+  
+  .infoList {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .infoList li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .note {
+    padding: 0.75rem;
+    background-color: #fffbeb;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .feedbackText {
+    color: #4b5563;
+    margin-bottom: 1rem;
+  }
+  
+  .feedbackButton {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .feedbackButton:hover {
+    background-color: #1d4ed8;
+  }
+  
+  @media (max-width: 768px) {
+    .languageCard, .infoCard, .feedbackCard {
+      padding: 1.25rem;
+    }
+    
+    .languageSelector {
+      max-width: 100%;
+    }
+  }

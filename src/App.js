@@ -28,6 +28,14 @@ import GuestAccess from './pages/GuestAccess';
 import SmartLock from './pages/SmartLock';
 import NotificationCenter from './pages/NotificationCenter';
 
+
+//sprint3
+import VoiceAssistant from './pages/VoiceAssistant';
+import LanguageSettings from './pages/LanguageSettings';
+import ScheduleLights from './pages/ScheduleLights';
+import ThirdPartyAlarmService from './pages/ThirdPartyAlarmService';
+import MonthlyReport from './pages/MonthlyReport';
+
 import './utils/axiosConfig';
 // Private Route Component
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -129,7 +137,50 @@ const App = () => {
                       <NotificationCenter />
                     </PrivateRoute>
                   } 
+
                 />
+
+                {/* Sprint 3 Routes */}
+  <Route 
+    path="/voice-assistant" 
+    element={
+      <PrivateRoute>
+        <VoiceAssistant />
+      </PrivateRoute>
+    } 
+  />
+  <Route 
+    path="/language-settings" 
+    element={
+      <PrivateRoute>
+        <LanguageSettings />
+      </PrivateRoute>
+    } 
+  />
+  <Route 
+    path="/schedule-lights" 
+    element={
+      <PrivateRoute>
+        <ScheduleLights />
+      </PrivateRoute>
+    } 
+  />
+  <Route 
+    path="/third-party-alarm" 
+    element={
+      <PrivateRoute>
+        <ThirdPartyAlarmService />
+      </PrivateRoute>
+    } 
+  />
+  <Route 
+    path="/monthly-report" 
+    element={
+      <PrivateRoute>
+        <MonthlyReport />
+      </PrivateRoute>
+    } 
+  />
                 
                 <Route path="*" element={<NotFound />} />
               </Routes>

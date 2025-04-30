@@ -73,6 +73,38 @@ app.use('/api/access-codes', require('./routes/access-codes'));
 app.use('/api/smart-locks', require('./routes/smart-locks'));
 app.use('/api/notifications', require('./routes/notifications'));
 
+
+//sprint 3 routes
+
+
+// Update server.js to add routes for Sprint 3 features
+
+// Voice Assistant
+const voiceAssistantRoutes = require('./routes/voice-assistant');
+app.use('/api/voice-assistant', voiceAssistantRoutes);
+
+// Language Settings
+const languageRoutes = require('./routes/language');
+app.use('/api/users/language', languageRoutes);
+
+// Light Schedules and Light Devices
+const lightSchedulesRoutes = require('./routes/light-schedules');
+app.use('/api/schedules/lights', lightSchedulesRoutes);
+
+const lightDevicesRoutes = require('./routes/light-devices');
+app.use('/api/devices/lights', lightDevicesRoutes);
+
+// Third-Party Alarm Service
+const alarmServicesRoutes = require('./routes/alarm-services');
+app.use('/api/integrations/alarm-services', alarmServicesRoutes);
+
+const availableServicesRoutes = require('./routes/available-services');
+app.use('/api/integrations/available-alarm-services', availableServicesRoutes);
+
+// Monthly Reports
+const reportsRoutes = require('./routes/reports');
+app.use('/api/reports', reportsRoutes);
+
 // Error handling middleware
 app.use(errorHandler);
 

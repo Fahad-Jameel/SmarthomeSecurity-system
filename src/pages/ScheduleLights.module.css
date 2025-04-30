@@ -1,0 +1,427 @@
+/* ScheduleLights.module.css */
+.container {
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+  }
+  
+  .addButton {
+    display: flex;
+    align-items: center;
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .addButton:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .addButton svg {
+    margin-right: 0.5rem;
+  }
+  
+  .infoCard {
+    background-color: #eff6ff;
+    border-left: 4px solid #2563eb;
+    padding: 1.25rem;
+    border-radius: 0.375rem;
+    margin-bottom: 2rem;
+  }
+  
+  .infoTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+  }
+  
+  .infoText {
+    color: #4b5563;
+  }
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    font-size: 1rem;
+    color: #6b7280;
+  }
+  
+  .emptyState {
+    background-color: white;
+    padding: 3rem 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    text-align: center;
+  }
+  
+  .emptyState svg {
+    color: #9ca3af;
+    margin-bottom: 1rem;
+  }
+  
+  .emptyTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+  }
+  
+  .emptyText {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+  }
+  
+  .createButton {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.375rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .createButton:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .scheduleGrid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .scheduleGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .scheduleGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  
+  .scheduleCard {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    border-top: 3px solid #2563eb;
+  }
+  
+  .scheduleCard.disabled {
+    opacity: 0.7;
+    border-top-color: #9ca3af;
+  }
+  
+  .scheduleHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .scheduleName {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+  }
+  
+  .scheduleActions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .toggleButton, .editButton, .deleteButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 0.25rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .toggleButton {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+  
+  .toggleButton:hover {
+    background-color: #bbf7d0;
+  }
+  
+  .editButton {
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+  
+  .editButton:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+  }
+  
+  .deleteButton {
+    background-color: #fee2e2;
+    color: #ef4444;
+  }
+  
+  .deleteButton:hover {
+    background-color: #fecaca;
+  }
+  
+  .scheduleDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .deviceInfo, .timeInfo, .daysInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .deviceIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #f3f4f6;
+    color: #4b5563;
+  }
+  
+  .deviceName {
+    font-weight: 500;
+    color: #4b5563;
+  }
+  
+  .timeInfo, .daysInfo {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+  
+  .timeInfo svg, .daysInfo svg {
+    color: #9ca3af;
+  }
+  
+  .daysList {
+    display: flex;
+    gap: 0.25rem;
+  }
+  
+  .dayBadge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .activeDay {
+    background-color: #2563eb;
+    color: white;
+  }
+  
+  .inactiveDay {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+  }
+  
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+  }
+  
+  .modal {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .modalHeader h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+  }
+  
+  .closeButton:hover {
+    color: #1f2937;
+  }
+  
+  .form {
+    padding: 1.5rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 1.25rem;
+  }
+  
+  .formGroup label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #374151;
+  }
+  
+  .formGroup input[type="text"],
+  .formGroup select,
+  .formGroup input[type="time"] {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+  }
+  
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .checkboxLabel input {
+    margin-right: 0.5rem;
+  }
+  
+  .daysSelection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .dayButton {
+    min-width: 3rem;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .dayButton:hover {
+    border-color: #2563eb;
+  }
+  
+  .daySelected {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+  }
+  
+  .timeInputs {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .timeInputs .formGroup {
+    flex: 1;
+  }
+  
+  .formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .cancelButton {
+    padding: 0.625rem 1.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    background-color: white;
+    color: #4b5563;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .cancelButton:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .saveButton {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.375rem;
+    background-color: #2563eb;
+    color: white;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .saveButton:hover {
+    background-color: #1d4ed8;
+  }
+  
+  @media (max-width: 640px) {
+    .timeInputs {
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+  }

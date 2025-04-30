@@ -1,3 +1,4 @@
+// Update to User.js - Add language field
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -29,6 +30,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ['homeowner', 'family', 'guest'],
     default: 'homeowner'
+  },
+  // Add language field
+  language: {
+    type: String,
+    enum: ['en', 'es', 'fr', 'de', 'ar', 'zh', 'hi', 'ja'],
+    default: 'en'
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,

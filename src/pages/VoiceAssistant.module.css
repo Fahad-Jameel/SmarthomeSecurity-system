@@ -1,0 +1,226 @@
+/* VoiceAssistant.module.css */
+.container {
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  
+  .assistantCard {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .statusIndicator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #d1d5db;
+    margin-right: 0.5rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .indicator.active {
+    background-color: #ef4444;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+  }
+  
+  .transcriptBox {
+    width: 100%;
+    min-height: 100px;
+    background-color: #f9fafb;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  
+  .transcriptLabel {
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+  }
+  
+  .transcript {
+    font-size: 1.125rem;
+  }
+  
+  .placeholder {
+    color: #9ca3af;
+    font-style: italic;
+  }
+  
+  .responseBox {
+    width: 100%;
+    background-color: #eff6ff;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  
+  .responseLabel {
+    font-weight: 500;
+    color: #2563eb;
+    margin-bottom: 0.5rem;
+  }
+  
+  .response {
+    font-size: 1.125rem;
+  }
+  
+  .controls {
+    margin-top: 1rem;
+  }
+  
+  .micButton {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #2563eb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .micButton:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.05);
+  }
+  
+  .micButton.listening {
+    background-color: #ef4444;
+    animation: pulse 1.5s infinite;
+  }
+  
+  .helpSection, .settingsSection {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+  }
+  
+  .helpTitle, .settingsTitle {
+    display: flex;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+  }
+  
+  .helpTitle svg, .settingsTitle svg {
+    margin-right: 0.5rem;
+    color: #2563eb;
+  }
+  
+  .commandList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .command {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .command:last-child {
+    border-bottom: none;
+  }
+  
+  .settingRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .settingRow label {
+    width: 120px;
+    font-weight: 500;
+  }
+  
+  .select {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+  }
+  
+  .select:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+  }
+  
+  .comingSoon {
+    position: absolute;
+    right: 0;
+    font-size: 0.75rem;
+    background-color: #2563eb;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+  
+  @media (max-width: 768px) {
+    .assistantCard {
+      padding: 1.5rem;
+    }
+    
+    .settingRow {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .settingRow label {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    
+    .select {
+      width: 100%;
+    }
+    
+    .comingSoon {
+      position: static;
+      margin-top: 0.5rem;
+      display: inline-block;
+    }
+  }

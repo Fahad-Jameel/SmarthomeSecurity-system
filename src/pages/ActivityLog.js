@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Calendar, Filter, Clock, Search } from 'lucide-react';
+import { Calendar, Filter, Clock, Search, Shield, Radio, Lock, Bell } from 'lucide-react';
 import styles from './ActivityLog.module.css';
 
 const ActivityLog = () => {
   const [activities, setActivities] = useState([]);
+  const [securityLogs, setSecurityLogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,6 +20,7 @@ const ActivityLog = () => {
 
   useEffect(() => {
     fetchActivities();
+    fetchSecurityLogs();
   }, [filter, currentPage, dateRange]);
 
   const fetchActivities = async () => {
@@ -34,12 +36,56 @@ const ActivityLog = () => {
       };
       
       const res = await axios.get('/api/activities', { params });
-      setActivities(res.data.activities);
-      setTotalPages(Math.ceil(res.data.total / itemsPerPage));
+      
+      // Handle different response formats
+      let activitiesData = [];
+      if (Array.isArray(res.data)) {
+        activitiesData = res.data;
+      } else if (res.data && Array.isArray(res.data.activities)) {
+        activitiesData = res.data.activities;
+      } else if (res.data && res.data.data && Array.isArray(res.data.data)) {
+        activitiesData = res.data.data;
+      } else {
+        console.error('Unexpected activities data format:', res.data);
+        activitiesData = [];
+      }
+      
+      setActivities(activitiesData);
+      
+      // Calculate total pages if available in response
+      if (res.data && res.data.total) {
+        setTotalPages(Math.ceil(res.data.total / itemsPerPage));
+      }
+      
       setIsLoading(false);
     } catch (err) {
+      console.error('Failed to fetch activity logs:', err);
       toast.error('Failed to fetch activity logs');
       setIsLoading(false);
+    }
+  };
+
+  const fetchSecurityLogs = async () => {
+    try {
+      const res = await axios.get('/api/security/logs');
+      
+      // Handle different response formats
+      let logsData = [];
+      if (Array.isArray(res.data)) {
+        logsData = res.data;
+      } else if (res.data && Array.isArray(res.data.logs)) {
+        logsData = res.data.logs;
+      } else if (res.data && res.data.data && Array.isArray(res.data.data)) {
+        logsData = res.data.data;
+      } else {
+        console.error('Unexpected security logs data format:', res.data);
+        logsData = [];
+      }
+      
+      setSecurityLogs(logsData);
+    } catch (err) {
+      console.error('Failed to fetch security logs:', err);
+      toast.error('Failed to fetch security logs');
     }
   };
 
@@ -65,31 +111,70 @@ const ActivityLog = () => {
     setCurrentPage(page);
   };
 
-  const getEventIcon = (eventType) => {
-    switch (eventType) {
+  // Combine activities and security logs
+  const getAllLogs = () => {
+    // Transform security logs to match activity format for display
+    const formattedSecurityLogs = securityLogs.map(log => ({
+      _id: log._id || `security-${Math.random()}`,
+      eventType: log.eventType || 'system',
+      description: log.message || log.description || 'System event',
+      timestamp: log.timestamp || log.createdAt || new Date(),
+      source: 'security',
+      isSecurityLog: true
+    }));
+    
+    // Combine both arrays
+    const combinedLogs = [...activities, ...formattedSecurityLogs];
+    
+    // Sort by most recent first
+    combinedLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    
+    // Apply filter if not set to 'all'
+    if (filter !== 'all') {
+      return combinedLogs.filter(log => 
+        log.eventType === filter || 
+        (filter === 'system' && log.isSecurityLog)
+      );
+    }
+    
+    return combinedLogs;
+  };
+
+  const getEventIcon = (log) => {
+    // For security logs, use a shield icon
+    if (log.isSecurityLog) {
+      return <div className={`${styles.eventIcon} ${styles.system}`}><Shield size={18} /></div>;
+    }
+    
+    // For regular activity logs
+    switch(log.eventType) {
       case 'arm':
-        return <div className={`${styles.eventIcon} ${styles.arm}`}><span className={styles.iconSymbol}>🔒</span></div>;
+        return <div className={`${styles.eventIcon} ${styles.arm}`}><Lock size={18} /></div>;
       case 'disarm':
-        return <div className={`${styles.eventIcon} ${styles.disarm}`}><span className={styles.iconSymbol}>🔓</span></div>;
+        return <div className={`${styles.eventIcon} ${styles.disarm}`}><Lock size={18} /></div>;
       case 'sensor':
-        return <div className={`${styles.eventIcon} ${styles.sensor}`}><span className={styles.iconSymbol}>📡</span></div>;
+        return <div className={`${styles.eventIcon} ${styles.sensor}`}><Radio size={18} /></div>;
       case 'motion':
-        return <div className={`${styles.eventIcon} ${styles.motion}`}><span className={styles.iconSymbol}>👣</span></div>;
+        return <div className={`${styles.eventIcon} ${styles.motion}`}><Radio size={18} /></div>;
       case 'door':
-        return <div className={`${styles.eventIcon} ${styles.door}`}><span className={styles.iconSymbol}>🚪</span></div>;
+        return <div className={`${styles.eventIcon} ${styles.door}`}><Radio size={18} /></div>;
       case 'system':
-        return <div className={`${styles.eventIcon} ${styles.system}`}><span className={styles.iconSymbol}>⚙️</span></div>;
+        return <div className={`${styles.eventIcon} ${styles.system}`}><Shield size={18} /></div>;
       case 'user':
-        return <div className={`${styles.eventIcon} ${styles.user}`}><span className={styles.iconSymbol}>👤</span></div>;
+        return <div className={`${styles.eventIcon} ${styles.user}`}><Bell size={18} /></div>;
       default:
-        return <div className={`${styles.eventIcon} ${styles.other}`}><span className={styles.iconSymbol}>📝</span></div>;
+        return <div className={`${styles.eventIcon} ${styles.other}`}><Bell size={18} /></div>;
     }
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) return 'Unknown date';
+    
     const date = new Date(dateString);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   };
+
+  const allLogs = getAllLogs();
 
   return (
     <div className={styles.container}>
@@ -159,7 +244,7 @@ const ActivityLog = () => {
       <div className={styles.logSection}>
         {isLoading ? (
           <div className={styles.loading}>Loading activity logs...</div>
-        ) : activities.length === 0 ? (
+        ) : allLogs.length === 0 ? (
           <div className={styles.noActivities}>
             <Calendar size={48} />
             <h3>No activities found</h3>
@@ -174,18 +259,18 @@ const ActivityLog = () => {
                 <span>Date & Time</span>
               </div>
               
-              {activities.map((activity) => (
-                <div key={activity._id} className={styles.activityItem}>
+              {allLogs.map((log) => (
+                <div key={log._id} className={styles.activityItem}>
                   <div className={styles.eventType}>
-                    {getEventIcon(activity.eventType)}
-                    <span>{activity.eventType.charAt(0).toUpperCase() + activity.eventType.slice(1)}</span>
+                    {getEventIcon(log)}
+                    <span>{log.eventType.charAt(0).toUpperCase() + log.eventType.slice(1)}</span>
                   </div>
                   <div className={styles.description}>
-                    {activity.description}
+                    {log.description}
                   </div>
                   <div className={styles.timestamp}>
                     <Clock size={14} />
-                    <span>{formatDate(activity.timestamp)}</span>
+                    <span>{formatDate(log.timestamp)}</span>
                   </div>
                 </div>
               ))}

@@ -9,12 +9,22 @@ const Navbar = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false);
+  const [isAutomationsDropdownOpen, setIsAutomationsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const settingsDropdownRef = useRef(null);
+  const automationsDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
+      }
+      if (settingsDropdownRef.current && !settingsDropdownRef.current.contains(event.target)) {
+        setIsSettingsDropdownOpen(false);
+      }
+      if (automationsDropdownRef.current && !automationsDropdownRef.current.contains(event.target)) {
+        setIsAutomationsDropdownOpen(false);
       }
     };
 
@@ -37,6 +47,14 @@ const Navbar = () => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const toggleSettingsDropdown = () => {
+    setIsSettingsDropdownOpen(!isSettingsDropdownOpen);
+  };
+
+  const toggleAutomationsDropdown = () => {
+    setIsAutomationsDropdownOpen(!isAutomationsDropdownOpen);
   };
 
   const closeMobileMenu = () => {
@@ -140,6 +158,179 @@ const Navbar = () => {
                   Activity
                 </NavLink>
               </div>
+
+              {/* Sprint 3 Additions - Settings Dropdown */}
+              <div className={styles.profileDropdown} ref={settingsDropdownRef}>
+                <button 
+                  className={styles.dropdownButton} 
+                  onClick={toggleSettingsDropdown}
+                  aria-haspopup="true"
+                  aria-expanded={isSettingsDropdownOpen}
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  <span>Settings</span>
+                  <svg
+                    className={styles.dropdownIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div className={isSettingsDropdownOpen ? styles.dropdownMenu : `${styles.dropdownMenu} ${styles.dropdownMenuHidden}`}>
+                  <Link 
+                    to="/profile" 
+                    className={styles.dropdownItem}
+                    onClick={() => setIsSettingsDropdownOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <Link 
+                    to="/language-settings" 
+                    className={styles.dropdownItem}
+                    onClick={() => setIsSettingsDropdownOpen(false)}
+                  >
+                    Language
+                  </Link>
+                  <Link 
+                    to="/voice-assistant" 
+                    className={styles.dropdownItem}
+                    onClick={() => setIsSettingsDropdownOpen(false)}
+                  >
+                    Voice Assistant
+                  </Link>
+                  <Link 
+                    to="/notifications" 
+                    className={styles.dropdownItem}
+                    onClick={() => setIsSettingsDropdownOpen(false)}
+                  >
+                    Notifications
+                  </Link>
+                </div>
+              </div>
+
+              {/* Sprint 3 Additions - Automations Dropdown */}
+              <div className={styles.profileDropdown} ref={automationsDropdownRef}>
+                <button 
+                  className={styles.dropdownButton} 
+                  onClick={toggleAutomationsDropdown}
+                  aria-haspopup="true"
+                  aria-expanded={isAutomationsDropdownOpen}
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                    />
+                  </svg>
+                  <span>Automations</span>
+                  <svg
+                    className={styles.dropdownIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div className={isAutomationsDropdownOpen ? styles.dropdownMenu : `${styles.dropdownMenu} ${styles.dropdownMenuHidden}`}>
+                  <Link 
+                    to="/schedule-lights" 
+                    className={styles.dropdownItem}
+                    onClick={() => setIsAutomationsDropdownOpen(false)}
+                  >
+                    Schedule Lights
+                  </Link>
+                  <Link 
+                    to="/third-party-alarm" 
+                    className={styles.dropdownItem}
+                    onClick={() => setIsAutomationsDropdownOpen(false)}
+                  >
+                    Alarm Services
+                  </Link>
+                  <Link 
+                    to="/zones" 
+                    className={styles.dropdownItem}
+                    onClick={() => setIsAutomationsDropdownOpen(false)}
+                  >
+                    Zones
+                  </Link>
+                  <Link 
+                    to="/smart-locks" 
+                    className={styles.dropdownItem}
+                    onClick={() => setIsAutomationsDropdownOpen(false)}
+                  >
+                    Smart Locks
+                  </Link>
+                </div>
+              </div>
+
+              {/* Sprint 3 Addition - Monthly Report Link */}
+              <div className={styles.navItem}>
+                <NavLink 
+                  to="/monthly-report" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                  }
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  <span>Reports</span>
+                </NavLink>
+              </div>
+
               <div className={styles.profileDropdown} ref={dropdownRef}>
                 <button 
                   className={styles.dropdownButton} 
@@ -175,32 +366,11 @@ const Navbar = () => {
                     Profile
                   </Link>
                   <Link 
-                    to="/notifications" 
-                    className={styles.dropdownItem}
-                    onClick={() => setIsDropdownOpen(false)}
-                  >
-                    Notifications
-                  </Link>
-                  <Link 
-                    to="/zones" 
-                    className={styles.dropdownItem}
-                    onClick={() => setIsDropdownOpen(false)}
-                  >
-                    Zones
-                  </Link>
-                  <Link 
                     to="/guests" 
                     className={styles.dropdownItem}
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     Guest Access
-                  </Link>
-                  <Link 
-                    to="/smart-locks" 
-                    className={styles.dropdownItem}
-                    onClick={() => setIsDropdownOpen(false)}
-                  >
-                    Smart Locks
                   </Link>
                   <div className={styles.divider}></div>
                   <button 
@@ -342,7 +512,6 @@ const Navbar = () => {
                   Sensors
                 </NavLink>
 
-                {/* Sprint 2 Features */}
                 <NavLink 
                   to="/cameras" 
                   className={({ isActive }) => 
@@ -391,6 +560,131 @@ const Navbar = () => {
                   Activity Log
                 </NavLink>
 
+                {/* Sprint 3 Mobile Menu Additions */}
+                <div className={styles.mobileMenuSectionTitle}>Settings</div>
+
+                <NavLink 
+                  to="/profile" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                  Profile
+                </NavLink>
+
+                <NavLink 
+                  to="/language-settings" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+                    />
+                  </svg>
+                  Language Settings
+                </NavLink>
+
+                <NavLink 
+                  to="/voice-assistant" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                    />
+                  </svg>
+                  Voice Assistant
+                </NavLink>
+
+                <div className={styles.mobileMenuSectionTitle}>Automations</div>
+
+                <NavLink 
+                  to="/schedule-lights" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                  Schedule Lights
+                </NavLink>
+
+                <NavLink 
+                  to="/third-party-alarm" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                  Alarm Services
+                </NavLink>
+
                 <NavLink 
                   to="/zones" 
                   className={({ isActive }) => 
@@ -413,30 +707,6 @@ const Navbar = () => {
                     />
                   </svg>
                   Zones
-                </NavLink>
-
-                <NavLink 
-                  to="/guests" 
-                  className={({ isActive }) => 
-                    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
-                  }
-                  onClick={closeMobileMenu}
-                >
-                  <svg
-                    className={styles.linkIcon}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
-                  Guest Access
                 </NavLink>
 
                 <NavLink 
@@ -464,6 +734,30 @@ const Navbar = () => {
                 </NavLink>
 
                 <NavLink 
+                  to="/guests" 
+                  className={({ isActive }) => 
+                    isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  <svg
+                    className={styles.linkIcon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                    />
+                  </svg>
+                  Guest Access
+                </NavLink>
+
+                <NavLink 
                   to="/notifications" 
                   className={({ isActive }) => 
                     isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
@@ -487,8 +781,9 @@ const Navbar = () => {
                   Notifications
                 </NavLink>
 
+                {/* Sprint 3 - Monthly Report Link */}
                 <NavLink 
-                  to="/profile" 
+                  to="/monthly-report" 
                   className={({ isActive }) => 
                     isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
                   }
@@ -505,10 +800,10 @@ const Navbar = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                     />
                   </svg>
-                  Profile
+                  Monthly Reports
                 </NavLink>
 
                 <div className={styles.divider}></div>

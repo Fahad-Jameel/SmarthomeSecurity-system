@@ -1,0 +1,636 @@
+/* ThirdPartyAlarmService.module.css */
+.container {
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  
+  .infoCard {
+    display: flex;
+    align-items: flex-start;
+    background-color: #f3f4f6;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .infoIcon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #dbeafe;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+  }
+  
+  .infoContent {
+    flex: 1;
+  }
+  
+  .infoTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+  }
+  
+  .infoText {
+    color: #4b5563;
+  }
+  
+  .sectionTitle {
+    margin-bottom: 1.5rem;
+  }
+  
+  .sectionTitle h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+  }
+  
+  .sectionSubtitle {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    font-size: 1rem;
+    color: #6b7280;
+  }
+  
+  .emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 3rem 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .emptyState svg {
+    color: #9ca3af;
+    margin-bottom: 1rem;
+  }
+  
+  .emptyTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+  }
+  
+  .emptyText {
+    color: #6b7280;
+  }
+  
+  .connectionsGrid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  @media (min-width: 768px) {
+    .connectionsGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  
+  .connectionCard {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 1.5rem;
+  }
+  
+  .connectionHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .serviceLogo {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.25rem;
+    object-fit: contain;
+    margin-right: 1rem;
+  }
+  
+  .serviceInfo {
+    flex: 1;
+  }
+  
+  .serviceName {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: #1f2937;
+  }
+  
+  .serviceStatus {
+    display: flex;
+    align-items: center;
+  }
+  
+  .statusIndicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.375rem;
+  }
+  
+  .connected {
+    background-color: #10b981;
+  }
+  
+  .disconnected {
+    background-color: #ef4444;
+  }
+  
+  .statusText {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .disconnectButton {
+    background-color: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: all 0.2s;
+  }
+  
+  .disconnectButton:hover {
+    background-color: #fecaca;
+  }
+  
+  .accountInfo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .accountDetail {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+  }
+  
+  .accountLabel {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+  
+  .accountValue {
+    font-weight: 500;
+    color: #1f2937;
+  }
+  
+  .optionsSection {
+    margin-bottom: 1.5rem;
+  }
+  
+  .optionsTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+  }
+  
+  .optionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .optionItem {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .optionLabel {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+  }
+  
+  .optionLabel input {
+    margin-right: 0.5rem;
+  }
+  
+  .optionDescription {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-left: 1.5rem;
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .testButton, .portalLink {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0.625rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  
+  .testButton {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    cursor: pointer;
+  }
+  
+  .testButton:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+  }
+  
+  .portalLink {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+  }
+  
+  .portalLink:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .servicesGrid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .servicesGrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .servicesGrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  
+  .serviceCard {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .serviceCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .connectedService {
+    border: 2px solid #2563eb;
+  }
+  
+  .serviceCardHeader {
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+  }
+  
+  .serviceCardLogo {
+    max-width: 80%;
+    max-height: 64px;
+    object-fit: contain;
+  }
+  
+  .connectedBadge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background-color: #2563eb;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .serviceCardContent {
+    padding: 1.5rem;
+    flex: 1;
+  }
+  
+  .serviceCardName {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+  }
+  
+  .serviceDescription {
+    color: #4b5563;
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .serviceFeatures {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .serviceFeature {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: #374151;
+  }
+  
+  .featureIcon {
+    color: #10b981;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .serviceCardFooter {
+    padding: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .connectButton {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .connectButton:hover:not(:disabled) {
+    background-color: #1d4ed8;
+  }
+  
+  .connectButton:disabled {
+    background-color: #a5b4fc;
+    cursor: not-allowed;
+  }
+  
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    padding: 1rem;
+  }
+  
+  .modal {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .modalHeader h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1f2937;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+  }
+  
+  .closeButton:hover {
+    color: #1f2937;
+  }
+  
+  .modalBody {
+    padding: 1.5rem;
+  }
+  
+  .serviceModalInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .modalLogo {
+    max-width: 120px;
+    max-height: 60px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+  }
+  
+  .modalDescription {
+    color: #4b5563;
+    font-size: 0.875rem;
+  }
+  
+  .connectForm {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .formSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .formSectionTitle {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: #1f2937;
+  }
+  
+  .formSectionTitle svg {
+    margin-right: 0.5rem;
+    color: #2563eb;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formGroup label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #374151;
+  }
+  
+  .formGroup input[type="text"],
+  .formGroup input[type="password"] {
+    padding: 0.625rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+  }
+  
+  .fieldHint {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.375rem;
+  }
+  
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .checkboxLabel input {
+    margin-right: 0.5rem;
+  }
+  
+  .legalText {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    background-color: #f3f4f6;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    color: #4b5563;
+  }
+  
+  .legalText svg {
+    flex-shrink: 0;
+    color: #f59e0b;
+    margin-right: 0.75rem;
+    margin-top: 0.125rem;
+  }
+  
+  .formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .cancelButton {
+    padding: 0.625rem 1.25rem;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .cancelButton:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .connectSubmitButton {
+    padding: 0.625rem 1.25rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .connectSubmitButton:hover:not(:disabled) {
+    background-color: #1d4ed8;
+  }
+  
+  .connectSubmitButton:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 640px) {
+    .formActions {
+      flex-direction: column;
+    }
+    
+    .formActions button {
+      width: 100%;
+    }
+  }
