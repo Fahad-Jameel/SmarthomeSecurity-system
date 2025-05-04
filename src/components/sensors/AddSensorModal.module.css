@@ -66,7 +66,7 @@
 
 .formGroup input,
 .formGroup select {
-  width: 100%;
+  width: 80%;
   padding: 0.75rem;
   border: 1px solid #d1d5db; /* gray-300 */
   border-radius: 0.375rem;

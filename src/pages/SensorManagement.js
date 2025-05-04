@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { SecurityContext } from '../context/SecurityContext';
-import AddSensorModal from '../components/sensors/AddSensorModal.js';
-import SensorCard from '../components/sensors/SensorCard.js';
+import AddSensorModal from '../components/sensors/AddSensorModal';
+import SensorCard from '../components/sensors/SensorCard';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import styles from './SensorManagement.module.css';
 
