@@ -1,14 +1,18 @@
 {
-  "name": "server",
+  "name": "smart-home-security-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'No build step required'",
+    "vercel-build": "echo 'Vercel build completed'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["smart-home", "security", "api", "express", "mongodb"],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Smart Home Security System Backend API",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "connect-mongo": "^5.1.0",
@@ -25,5 +29,8 @@
   "devDependencies": {
     "concurrently": "^9.1.2",
     "nodemon": "^3.1.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

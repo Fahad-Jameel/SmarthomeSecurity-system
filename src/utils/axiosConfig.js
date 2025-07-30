@@ -1,8 +1,11 @@
 // src/utils/axiosConfig.js
 import axios from 'axios';
 
+// Get API URL from environment variable or default to localhost
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 // Configure axios defaults
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
